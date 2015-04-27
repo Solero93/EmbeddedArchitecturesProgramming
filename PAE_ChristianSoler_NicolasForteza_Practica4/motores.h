@@ -64,21 +64,29 @@
 #define MOTOR_TRAS_IZQUIERDO 0x04
 
 void angulo_a0(byte bID){
-	gbpParameter[0] = P_CW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
-	gbpParameter[1] = 0x00; //
-    TxPacket(bID,2,INST_WRITE);
+        gbpParameter[0] = P_CW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
+        gbpParameter[1] = 0x00; //
+        TxPacket(bID,2,INST_WRITE);
 
-    gbpParameter[0] = P_CW_ANGLE_LIMIT_L; //low de speed de 0 a ff
-    gbpParameter[1] = 0x00; //
-    TxPacket(bID,2,INST_WRITE);
+        gbpParameter[0] = P_CW_ANGLE_LIMIT_L; //low de speed de 0 a ff
+        gbpParameter[1] = 0x00; //
+        TxPacket(bID,2,INST_WRITE);
 
-    gbpParameter[0] = P_CCW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
-    gbpParameter[1] = 0x00; //
-    TxPacket(bID,2,INST_WRITE);
+        gbpParameter[0] = P_GOAL_POSITION_H; //high de Speed de 0 a 3
+        gbpParameter[1] = 0x00; //
+        TxPacket(bID,2,INST_WRITE);
 
-    gbpParameter[0] = P_CCW_ANGLE_LIMIT_L; //low de speed de 0 a ff
-    gbpParameter[1] = 0x00; //
-    TxPacket(bID,2,INST_WRITE);
+        gbpParameter[0] = P_GOAL_POSITION_L; //low de speed de 0 a ff
+        gbpParameter[1] = 0x00; //
+        TxPacket(bID,2,INST_WRITE);
+
+        gbpParameter[0] = P_CCW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
+        gbpParameter[1] = 0x00; //
+        TxPacket(bID,2,INST_WRITE);
+
+        gbpParameter[0] = P_CCW_ANGLE_LIMIT_L; //low de speed de 0 a ff
+        gbpParameter[1] = 0x00; //
+        TxPacket(bID,2,INST_WRITE);
 }
 
 void change_velocidad(byte bID, byte H, byte L){
@@ -116,7 +124,6 @@ void girar_izquierda(){
 void mandar_a_todos_motores(byte numParam, byte instruction){
 
 }
-
 
 void ping(byte bID){
 	TxPacket(bID,0,INST_PING);

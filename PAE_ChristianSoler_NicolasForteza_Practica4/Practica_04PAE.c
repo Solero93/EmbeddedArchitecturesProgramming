@@ -86,7 +86,10 @@ void main(void)
   	P4OUT = 0x01;
   	//AQUI------Nuevo--------------------------
 
-  	change_velocidad(1, 0, 1);
+  	init_motor(1);
+  	escribirRx(RxPacket());
+  	change_velocidad(1, 1, 0);
+  	escribirRx(RxPacket());
 
   	//gbpParameter[0] = P_LED; //Address of LED
   	//gbpParameter[1] = 1; //Writing Data encender
