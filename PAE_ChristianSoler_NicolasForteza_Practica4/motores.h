@@ -63,27 +63,23 @@
 #define MOTOR_TRAS_DERECHO 0x01
 #define MOTOR_TRAS_IZQUIERDO 0x04
 
-void ping(byte bID){
-	TxPacket(bID,0,INST_PING);
-	escribirRx(RxPacket());
+void angulo_a0(byte bID){
+	gbpParameter[0] = P_CW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
+	gbpParameter[1] = 0x00; //
+    TxPacket(bID,2,INST_WRITE);
+
+    gbpParameter[0] = P_CW_ANGLE_LIMIT_L; //low de speed de 0 a ff
+    gbpParameter[1] = 0x00; //
+    TxPacket(bID,2,INST_WRITE);
+
+    gbpParameter[0] = P_CCW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
+    gbpParameter[1] = 0x00; //
+    TxPacket(bID,2,INST_WRITE);
+
+    gbpParameter[0] = P_CCW_ANGLE_LIMIT_L; //low de speed de 0 a ff
+    gbpParameter[1] = 0x00; //
+    TxPacket(bID,2,INST_WRITE);
 }
-
-
-void encender_LED(byte bID){
-	gbpParameter[0] = P_LED; //Address of LED
-	gbpParameter[1] = 1; //Writing Data encender
-	TxPacket(bID,2,INST_WRITE);
-
-}
-
-
-void apagar_LED(byte bID){
-	gbpParameter[0] = P_LED; //Address of LED
-	gbpParameter[1] = 0; //Writing Data apagar
-	TxPacket(bID,2,INST_WRITE);
-
-}
-
 
 void change_velocidad(byte bID, byte H, byte L){
 	gbpParameter[0] = P_GOAL_SPEED_H; //high de Speed de 0 a 3
@@ -93,4 +89,50 @@ void change_velocidad(byte bID, byte H, byte L){
 	gbpParameter[0] = P_GOAL_SPEED_L; //low de speed de 0 a ff
 	gbpParameter[1] = L; //
 	TxPacket(bID,2,INST_WRITE);
+}
+
+void init_motor(byte bID){
+	angulo_a0(bID);
+	change_velocidad(bID, 0, 0);
+}
+
+void mover_delante(){
+
+}
+
+void mover_atras(){
+
+}
+
+void girar_derecha(){
+
+}
+
+void girar_izquierda(){
+
+}
+
+
+void mandar_a_todos_motores(byte numParam, byte instruction){
+
+}
+
+
+void ping(byte bID){
+	TxPacket(bID,0,INST_PING);
+	escribirRx(RxPacket());
+}
+
+void encender_LED(byte bID){
+	gbpParameter[0] = P_LED; //Address of LED
+	gbpParameter[1] = 1; //Writing Data encender
+	TxPacket(bID,2,INST_WRITE);
+
+}
+
+void apagar_LED(byte bID){
+	gbpParameter[0] = P_LED; //Address of LED
+	gbpParameter[1] = 0; //Writing Data apagar
+	TxPacket(bID,2,INST_WRITE);
+
 }
