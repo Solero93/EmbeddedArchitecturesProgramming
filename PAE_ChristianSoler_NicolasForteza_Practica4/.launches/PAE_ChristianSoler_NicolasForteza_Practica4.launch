@@ -5,7 +5,7 @@
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROGRAM.TI MSP430 USB1/MSP430" value="${build_artifact:PAE_ChristianSoler_NicolasForteza_Practica4}"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.TI MSP430 USB1/MSP430" value="PAE_ChristianSoler_NicolasForteza_Practica4"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:PAE_ChristianSoler_NicolasForteza_Practica4}"/>
-<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.TI MSP430 USB1/MSP430" value="C:/Users\mat.aules\Desktop\PAE_ChristianSoler_NicolasForteza_Practica4\Debug\PAE_ChristianSoler_NicolasForteza_Practica4.out"/>
+<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.TI MSP430 USB1/MSP430" value="D:/Documents\GitHub\PAE\PAE_ChristianSoler_NicolasForteza_Practica4\Debug\PAE_ChristianSoler_NicolasForteza_Practica4.out"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/PAE_ChristianSoler_NicolasForteza_Practica4"/>
 </listAttribute>

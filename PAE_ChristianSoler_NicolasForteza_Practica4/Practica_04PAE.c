@@ -10,6 +10,7 @@
 #include "constants.h"
 #include "control_pantalla.h"
 #include "envio_recibir_instruc.h"
+#include "motores.h"
 
 long int i;
 
@@ -87,13 +88,11 @@ void main(void)
 
 
 
-
-
   	//gbpParameter[0] = P_LED; //Address of LED
   	//gbpParameter[1] = 1; //Writing Data encender
   	/*bTxPacketLength =*/
-  	TxPacket(4,0,INST_PING);
-  	escribirRx(RxPacket());
+  	//TxPacket(4,0,INST_PING);
+  	//escribirRx(RxPacket());
   	//TxPacket(4,2,INST_WRITE);
   	//gbpParameter[1] = 0;//apagar
   	//TxPacket(1,2,INST_WRITE);

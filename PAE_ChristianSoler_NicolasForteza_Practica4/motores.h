@@ -4,12 +4,6 @@
  *  Created on: 26/4/2015
  *      Author: Administrador
  */
-#include <msp430x54xA.h>
-#include <stdio.h>
-#include "hal_lcd.h"
-#include "constants.h"
-#include "control_pantalla.h"
-#include "envio_recibir_instruc.h"
 
 //--- Control Table Address ---
 //EEPROM AREA
@@ -64,9 +58,9 @@
 #define P_PUNCH_L (48)
 #define P_PUNCH_H (49)
 
-#define MOTOR_DEL_DERECHO 0x01
+#define MOTOR_DEL_DERECHO 0x03
 #define MOTOR_DEL_IZQUIERDO 0x02
-#define MOTOR_TRAS_DERECHO 0x03
+#define MOTOR_TRAS_DERECHO 0x01
 #define MOTOR_TRAS_IZQUIERDO 0x04
 
 
@@ -94,6 +88,4 @@ void change_velocidad(byte bID, byte H, byte L){
 	gbpParameter[0] = P_GOAL_SPEED_L; //low de speed de 0 a ff
 	gbpParameter[1] = L; //
 	TxPacket(bID,2,INST_WRITE);
-
 }
-
