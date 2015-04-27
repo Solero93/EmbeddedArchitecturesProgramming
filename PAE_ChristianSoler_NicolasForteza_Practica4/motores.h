@@ -95,12 +95,12 @@ void angulo_a0(byte bID){
         TxPacket(bID,2,INST_WRITE);
         escribirRx(RxPacket());
 
-        gbpParameter[0] = P_GOAL_SPEED_H; //high de Speed de 0 a 3
+        gbpParameter[0] = P_GOAL_POSITION_H; //high de Speed de 0 a 3
         gbpParameter[1] = 0x00; //
         TxPacket(bID,2,INST_WRITE);
         escribirRx(RxPacket());
 
-        gbpParameter[0] = P_GOAL_SPEED_L; //low de speed de 0 a ff
+        gbpParameter[0] = P_GOAL_POSITION_L; //low de speed de 0 a ff
         gbpParameter[1] = 0x00; //
         TxPacket(bID,2,INST_WRITE);
         escribirRx(RxPacket());
