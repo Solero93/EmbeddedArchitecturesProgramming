@@ -63,6 +63,10 @@
 #define MOTOR_TRAS_DERECHO 0x01
 #define MOTOR_TRAS_IZQUIERDO 0x04
 
+void ping(byte bID){
+	TxPacket(bID,0,INST_PING);
+	escribirRx(RxPacket());
+}
 
 
 void encender_LED(byte bID){
@@ -79,6 +83,7 @@ void apagar_LED(byte bID){
 	TxPacket(bID,2,INST_WRITE);
 
 }
+
 
 void change_velocidad(byte bID, byte H, byte L){
 	gbpParameter[0] = P_GOAL_SPEED_H; //high de Speed de 0 a 3
