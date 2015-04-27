@@ -13,10 +13,10 @@
 #define P_ID 3
 #define P_BAUD_RATE 4
 #define P_RETURN_DELAY_TIME 5
-#define P_CW_ANGLE_LIMIT_L 6
-#define P_CW_ANGLE_LIMIT_H 7
-#define P_CCW_ANGLE_LIMIT_L 8
-#define P_CCW_ANGLE_LIMIT_H 9
+#define P_CW_ANGLE_LIMIT_L 0x06
+#define P_CW_ANGLE_LIMIT_H 0x07
+#define P_CCW_ANGLE_LIMIT_L 0x08
+#define P_CCW_ANGLE_LIMIT_H 0x09
 #define P_SYSTEM_DATA2 10
 #define P_LIMIT_TEMPERATURE 11
 #define P_DOWN_LIMIT_VOLTAGE 12
@@ -37,10 +37,10 @@
 #define P_CCW_COMPLIANCE_MARGIN (27)
 #define P_CW_COMPLIANCE_SLOPE (28)
 #define P_CCW_COMPLIANCE_SLOPE (29)
-#define P_GOAL_POSITION_L (30)
-#define P_GOAL_POSITION_H (31)
-#define P_GOAL_SPEED_L (32)
-#define P_GOAL_SPEED_H (33)
+#define P_GOAL_POSITION_L 0x1E
+#define P_GOAL_POSITION_H 0x1F
+#define P_GOAL_SPEED_L 0x20
+#define P_GOAL_SPEED_H 0x21
 #define P_TORQUE_LIMIT_L (34)
 #define P_TORQUE_LIMIT_H (35)
 #define P_PRESENT_POSITION_L (36)
@@ -59,34 +59,52 @@
 #define P_PUNCH_H (49)
 
 #define MOTOR_DEL_DERECHO 0x03
+#define FORWARD_MOTOR_DEL_DERECHO 0x04
+#define BACKWARD_MOTOR_DEL_DERECHO 0x04
+
 #define MOTOR_DEL_IZQUIERDO 0x02
+#define FORWARD_MOTOR_DEL_IZQUIERDO 0x04
+#define BACKWARD_MOTOR_DEL_IZQUIERDO 0x04
+
 #define MOTOR_TRAS_DERECHO 0x01
+#define FORWARD_MOTOR_TRAS_DERECHO 0x04
+#define BACKWARD_MOTOR_TRAS_DERECHO 0x04
+
 #define MOTOR_TRAS_IZQUIERDO 0x04
+#define FORWARD_MOTOR_TRAS_IZQUIERDO 0x04
+#define BACKWARD_MOTOR_TRAS_IZQUIERDO 0x04
 
 void angulo_a0(byte bID){
         gbpParameter[0] = P_CW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
-        gbpParameter[1] = 0x00; //
+        gbpParameter[1] = 0x00;
         TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
 
         gbpParameter[0] = P_CW_ANGLE_LIMIT_L; //low de speed de 0 a ff
         gbpParameter[1] = 0x00; //
         TxPacket(bID,2,INST_WRITE);
-
-        gbpParameter[0] = P_GOAL_POSITION_H; //high de Speed de 0 a 3
-        gbpParameter[1] = 0x00; //
-        TxPacket(bID,2,INST_WRITE);
-
-        gbpParameter[0] = P_GOAL_POSITION_L; //low de speed de 0 a ff
-        gbpParameter[1] = 0x00; //
-        TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
 
         gbpParameter[0] = P_CCW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
         gbpParameter[1] = 0x00; //
         TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
 
         gbpParameter[0] = P_CCW_ANGLE_LIMIT_L; //low de speed de 0 a ff
         gbpParameter[1] = 0x00; //
         TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
+
+        gbpParameter[0] = P_GOAL_SPEED_H; //high de Speed de 0 a 3
+        gbpParameter[1] = 0x00; //
+        TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
+
+        gbpParameter[0] = P_GOAL_SPEED_L; //low de speed de 0 a ff
+        gbpParameter[1] = 0x00; //
+        TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
+
 }
 
 void change_velocidad(byte bID, byte H, byte L){
@@ -104,20 +122,36 @@ void init_motor(byte bID){
 	change_velocidad(bID, 0, 0);
 }
 
-void mover_delante(){
+/*
+ *Hace falta probar qué cómo va
+ */
 
+void mover_delante(){
+	change_velocidad(1, 1 | FORWARD_MOTOR_DEL_DERECHO, 0);
+	change_velocidad(2, 1 | FORWARD_MOTOR_DEL_IZQUIERDO, 0);
+	change_velocidad(3, 1 | BACKWARD_MOTOR_TRAS_DERECHO, 0);
+	change_velocidad(4, 1 | BACKWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
 void mover_atras(){
-
+	change_velocidad(1, 1 | BACKWARD_MOTOR_DEL_DERECHO, 0);
+	change_velocidad(2, 1 | BACKWARD_MOTOR_DEL_IZQUIERDO, 0);
+	change_velocidad(3, 1 | FORWARD_MOTOR_TRAS_DERECHO, 0);
+	change_velocidad(4, 1 | FORWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
 void girar_derecha(){
-
+	change_velocidad(1, 1 | FORWARD_MOTOR_DEL_DERECHO, 0);
+	change_velocidad(2, 1 | FORWARD_MOTOR_DEL_IZQUIERDO, 0);
+	change_velocidad(3, 1 | FORWARD_MOTOR_TRAS_DERECHO, 0);
+	change_velocidad(4, 1 | FORWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
 void girar_izquierda(){
-
+	change_velocidad(1, 1 | BACKWARD_MOTOR_DEL_DERECHO, 0);
+	change_velocidad(2, 1 | BACKWARD_MOTOR_DEL_IZQUIERDO, 0);
+	change_velocidad(3, 1 | BACKWARD_MOTOR_TRAS_DERECHO, 0);
+	change_velocidad(4, 1 | BACKWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
 
@@ -134,6 +168,7 @@ void encender_LED(byte bID){
 	gbpParameter[0] = P_LED; //Address of LED
 	gbpParameter[1] = 1; //Writing Data encender
 	TxPacket(bID,2,INST_WRITE);
+	escribirRx(RxPacket());
 
 }
 

@@ -159,18 +159,35 @@ struct RxReturn RxPacket(void) {
                 while (Byte_Recibido==0) //Se_ha_recibido_Byte())
                 {
                          // tiempo en decenas de microsegundos
-                		delay--;
-                		if (delay<=0){
-                			Rx_time_out=1;
-                		}
+                                delay--;
+                                if (delay<=0){
+                                        Rx_time_out=1;
+                                }
                         if (Rx_time_out)break;//sale del while
                 }
                 if (Rx_time_out)break; //sale del for si ha habido Timeout
                         //Si no, es que todo ha ido bien, y leemos un dato:
                         respuesta.StatusPacket[bCount] = DatoLeido_UART; //Get_Byte_Leido_UART();
         }//fin del for
+        for(bCount = 0; bCount < respuesta.StatusPacket[3]; bCount++) //bRxPacketLength; bCount++)
+        {
+                delay=125000;
+                Byte_Recibido=0; //No_se_ha_recibido_Byte();
+                while (Byte_Recibido==0) //Se_ha_recibido_Byte())
+                {
+                         // tiempo en decenas de microsegundos
+                                delay--;
+                                if (delay<=0){
+                                        Rx_time_out=1;
+                                }
+                        if (Rx_time_out)break;//sale del while
+                }
+                if (Rx_time_out)break; //sale del for si ha habido Timeout
+                        //Si no, es que todo ha ido bien, y leemos un dato:
+                        respuesta.StatusPacket[bCount+4] = DatoLeido_UART; //Get_Byte_Leido_UART();
+        }//fin del for
         if (!Rx_time_out)
-        	respuesta.time_out=1;
+                respuesta.time_out=1;
         // Continua llegint la resta de bytes del Status Packet
         return respuesta;
 }

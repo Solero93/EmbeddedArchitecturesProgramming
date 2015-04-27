@@ -56,11 +56,11 @@ void init_botons(void)
 
 void escribirRx(struct RxReturn respuesta ){
 	byte bCount;
-	for(bCount = 0; bCount < 4; bCount++){
+    for(bCount = 0; bCount < respuesta.StatusPacket[3]; bCount++){
 
-	sprintf(cadena," %x ", respuesta.StatusPacket[bCount]);
-	escribir(cadena, bCount+1);
-	}
+    sprintf(cadena," %x ", respuesta.StatusPacket[bCount+4]);
+    escribir(cadena, bCount+1);
+    }
 }
 
 
@@ -83,13 +83,18 @@ void main(void)
   	linea++; 					//Aumentamos el valor de linea y con ello pasamos a la linea siguiente
 
 
+
   	P4OUT = 0x01;
   	//AQUI------Nuevo--------------------------
 
-  	init_motor(1);
-  	escribirRx(RxPacket());
-  	change_velocidad(1, 1, 0);
-  	escribirRx(RxPacket());
+  	angulo_a0(1);
+
+  	//encender_LED(1);
+
+//  	angulo_a0(1);
+//  	escribirRx(RxPacket());
+ // 	change_velocidad(1, 1, 0);
+ // 	escribirRx(RxPacket());
 
   	//gbpParameter[0] = P_LED; //Address of LED
   	//gbpParameter[1] = 1; //Writing Data encender
