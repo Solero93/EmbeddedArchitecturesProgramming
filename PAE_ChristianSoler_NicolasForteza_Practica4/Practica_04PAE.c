@@ -87,7 +87,9 @@ void main(void)
   	P4OUT = 0x01;
   	//AQUI------Nuevo--------------------------
 
-  	angulo_a0(1);
+
+  	init_motor(1);
+
 
   	//encender_LED(1);
 
