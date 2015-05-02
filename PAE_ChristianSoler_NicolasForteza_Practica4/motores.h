@@ -39,8 +39,8 @@
 #define P_CCW_COMPLIANCE_SLOPE (29)
 #define P_GOAL_POSITION_L 0x1E
 #define P_GOAL_POSITION_H 0x1F
-#define P_MOVING_SPEED_L 0x20
-#define P_MOVING_SPEED_H 0x21
+#define P_GOAL_SPEED_L 0x20
+#define P_GOAL_SPEED_H 0x21
 #define P_TORQUE_LIMIT_L (34)
 #define P_TORQUE_LIMIT_H (35)
 #define P_PRESENT_POSITION_L (36)
@@ -74,42 +74,45 @@
 #define FORWARD_MOTOR_TRAS_IZQUIERDO 0x04
 #define BACKWARD_MOTOR_TRAS_IZQUIERDO 0x04
 
-/*
-* La part del codi que no ens va
-*/
 void angulo_a0(byte bID){
         gbpParameter[0] = P_CW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
         gbpParameter[1] = 0x00;
         TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
 
         gbpParameter[0] = P_CW_ANGLE_LIMIT_L; //low de speed de 0 a ff
         gbpParameter[1] = 0x00; //
         TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
 
         gbpParameter[0] = P_CCW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
         gbpParameter[1] = 0x00; //
         TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
 
         gbpParameter[0] = P_CCW_ANGLE_LIMIT_L; //low de speed de 0 a ff
         gbpParameter[1] = 0x00; //
         TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
 
         gbpParameter[0] = P_GOAL_POSITION_H; //high de Speed de 0 a 3
         gbpParameter[1] = 0x00; //
         TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
 
         gbpParameter[0] = P_GOAL_POSITION_L; //low de speed de 0 a ff
         gbpParameter[1] = 0x00; //
         TxPacket(bID,2,INST_WRITE);
+        escribirRx(RxPacket());
 
 }
 
 void change_velocidad(byte bID, byte H, byte L){
-	gbpParameter[0] = P_MOVING_SPEED_H; //high de Speed de 0 a 3
+	gbpParameter[0] = P_GOAL_SPEED_H; //high de Speed de 0 a 3
 	gbpParameter[1] = H; //
 	TxPacket(bID,2,INST_WRITE);
 
-	gbpParameter[0] = P_MOVING_SPEED_L; //low de speed de 0 a ff
+	gbpParameter[0] = P_GOAL_SPEED_L; //low de speed de 0 a ff
 	gbpParameter[1] = L; //
 	TxPacket(bID,2,INST_WRITE);
 }
@@ -119,25 +122,9 @@ void init_motor(byte bID){
 	change_velocidad(bID, 0, 0);
 }
 
-void ping(byte bID){
-	TxPacket(bID,0,INST_PING);
-	escribirRx(RxPacket());
-}
-
-void encender_LED(byte bID){
-	gbpParameter[0] = P_LED; //Address of LED
-	gbpParameter[1] = 1; //Writing Data encender
-	TxPacket(bID,2,INST_WRITE);
-}
-
-void apagar_LED(byte bID){
-	gbpParameter[0] = P_LED; //Address of LED
-	gbpParameter[1] = 0; //Writing Data apagar
-	TxPacket(bID,2,INST_WRITE);
-}
-
 /*
- *Encara no estÃ¡ implementat
+ *Hace falta probar qué cómo va
+ */
 
 void mover_delante(){
 	change_velocidad(1, 1 | FORWARD_MOTOR_DEL_DERECHO, 0);
@@ -171,4 +158,23 @@ void girar_izquierda(){
 void mandar_a_todos_motores(byte numParam, byte instruction){
 
 }
-*/
+
+void ping(byte bID){
+	TxPacket(bID,0,INST_PING);
+	escribirRx(RxPacket());
+}
+
+void encender_LED(byte bID){
+	gbpParameter[0] = P_LED; //Address of LED
+	gbpParameter[1] = 1; //Writing Data encender
+	TxPacket(bID,2,INST_WRITE);
+	escribirRx(RxPacket());
+
+}
+
+void apagar_LED(byte bID){
+	gbpParameter[0] = P_LED; //Address of LED
+	gbpParameter[1] = 0; //Writing Data apagar
+	TxPacket(bID,2,INST_WRITE);
+
+}
