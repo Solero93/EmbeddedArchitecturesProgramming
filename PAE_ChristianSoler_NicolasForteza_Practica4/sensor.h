@@ -1,1 +1,4 @@
-void init_sensor();
+void init_sensor(){
+
+}
+
