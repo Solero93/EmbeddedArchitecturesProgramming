@@ -1,6 +1,3 @@
-
-
-
 void Sentit_Dades_Rx(void);
 
 void Sentit_Dades_Tx(void);

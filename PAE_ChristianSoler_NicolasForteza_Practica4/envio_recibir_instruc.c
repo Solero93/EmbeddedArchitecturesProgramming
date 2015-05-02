@@ -1,8 +1,13 @@
+#include <envio_recibir_instruc.h>
 
-#include <msp430x54xA.h>
-#include <stdio.h>
-#include "constants.h"
-#include "envio_recibir_instruc.h"
+byte DatoLeido_UART;
+int Byte_Recibido;//1 = si 0 = no
+
+
+volatile byte gbpRxInterruptBuffer[256];
+byte gbpParameter[128];
+byte gbpTxBuffer[32];
+
 
 
 

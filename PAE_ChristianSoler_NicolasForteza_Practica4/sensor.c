@@ -1,5 +1,4 @@
-#include "sensor.h"
-#include "constants.h"
+#include <sensor.h>
 
 void init_sensor(){
 

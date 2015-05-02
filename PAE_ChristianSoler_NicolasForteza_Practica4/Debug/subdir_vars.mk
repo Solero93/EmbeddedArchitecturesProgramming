@@ -8,44 +8,26 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../Practica_04PAE.c \
-../envio_recibir_instruc.c \
-../hal_lcd.c \
-../motores.c \
-../sensor.c 
+../hal_lcd.c 
 
 OBJS += \
 ./Practica_04PAE.obj \
-./envio_recibir_instruc.obj \
-./hal_lcd.obj \
-./motores.obj \
-./sensor.obj 
+./hal_lcd.obj 
 
 C_DEPS += \
 ./Practica_04PAE.pp \
-./envio_recibir_instruc.pp \
-./hal_lcd.pp \
-./motores.pp \
-./sensor.pp 
+./hal_lcd.pp 
 
 C_DEPS__QUOTED += \
 "Practica_04PAE.pp" \
-"envio_recibir_instruc.pp" \
-"hal_lcd.pp" \
-"motores.pp" \
-"sensor.pp" 
+"hal_lcd.pp" 
 
 OBJS__QUOTED += \
 "Practica_04PAE.obj" \
-"envio_recibir_instruc.obj" \
-"hal_lcd.obj" \
-"motores.obj" \
-"sensor.obj" 
+"hal_lcd.obj" 
 
 C_SRCS__QUOTED += \
 "../Practica_04PAE.c" \
-"../envio_recibir_instruc.c" \
-"../hal_lcd.c" \
-"../motores.c" \
-"../sensor.c" 
+"../hal_lcd.c" 
 
 

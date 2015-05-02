@@ -1,10 +1,5 @@
+#include <motores.h>
 
-#include <msp430x54xA.h>
-#include <stdio.h>
-#include "constants.h"
-
-#include "motores.h"
-#include "envio_recibir_instruc.c"
 /*
 * La part del codi que no ens va
 */
