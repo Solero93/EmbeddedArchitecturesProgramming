@@ -1,4 +1,6 @@
 //Defines
+#include <msp430x54xA.h>
+#include <stdio.h>
 typedef unsigned char byte;
 #define TXD0_READY (UCA0IFG & UCTXIFG)
 #define RXD0_READY (UCA0IFG & UCRXIFG)

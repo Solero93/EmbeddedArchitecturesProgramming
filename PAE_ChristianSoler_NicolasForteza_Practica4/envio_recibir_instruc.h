@@ -4,7 +4,9 @@
  *  Created on: 26/4/2015
  *      Author: Administrador
  */
-
+#include <msp430x54xA.h>
+#include <stdio.h>
+#include "constants.h"
 byte DatoLeido_UART;
 int Byte_Recibido;//1=si 0=no
 
