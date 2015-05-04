@@ -7,10 +7,11 @@
 #include <msp430x54xA.h>
 #include <stdio.h>
 #include "hal_lcd.h"
-#include "constants.h"
-#include "control_pantalla.h"
 #include "envio_recibir_instruc.h"
+#include "control_pantalla.h"
+
 #include "motores.h"
+#include "sensor.h"
 
 long int i;
 
@@ -85,12 +86,15 @@ void main(void)
 
 
   	P4OUT = 0x01;
+
+
   	//AQUI------Nuevo--------------------------
-
-  	angulo_a0(1);
-
-  	//encender_LED(1);
-
+/*
+  	init_motor(1);
+  	init_motor(2);
+  	init_motor(3);
+  	init_motor(4);
+*/
 //  	angulo_a0(1);
 //  	escribirRx(RxPacket());
  // 	change_velocidad(1, 1, 0);
@@ -115,8 +119,9 @@ void main(void)
 
   	do//do While de todo el programa
    	{
-
   		//el programa espera a una interrupcion
+
+  		read_left();
 
    	}while(1);
 }
@@ -133,7 +138,7 @@ void main(void)
  * Actualiza el valor estado
  *
  **************************************************************************/
-/*
+
 #pragma vector=PORT2_VECTOR  //interrupción de los botones. Actualiza el valor de la variable global estado.
 __interrupt void Port2_ISR(void)
 {
@@ -150,71 +155,42 @@ __interrupt void Port2_ISR(void)
 	Joystick center, estado = 5 y Canvia Modo a Editar Reloj/Alarma
 	Joystick up, estado =6 y disminuye el timer y van mas rapidos los LEDs
 	Joystick down, estado =7 y aumenta el timer y van mas lentos los LEDs
-	 * *********************************************************
+	 * *********************************************************/
 
 	switch(P2IFG){
 
 	case 2://Joystick a la izquierda
-		izquierda=1;//este valor hara que giren los LEDs hacia la izquierda
-		P1OUT &=0x00;
+		girar_izquierda();
 		break;
 	case 4:// Joystick a l derecha
-		izquierda=0;//este valor hara que giren los LEDs hacia la derecha
-		P1OUT &=0x00;
+		girar_derecha();
 		break;
 	case 8://Joystick centro
-		if(editAlarm==1){
-			editAlarm=0;//Modo editar hora
-		}else{
-			editAlarm=1;//Modo editar alarma
-		}
+
 		break;
 	case 16://Joystick Arriba
-		if(timer>=300){//Minimo cad 300 ms
-			timer-= 100;//mas rapido, disminuye el valor de timer
-			borrar(linea);
-			escribirTimer();//actualiza el valor de timer mostrado
-		}
-		P1OUT &=0x00;
+		mover_delante();
 		break;
 	case 32://Joystick abajo
-		if(timer <= 3000){//maximo cada 3 segundos
-			timer+= 100;//mas lento, aumenta el valor de Timer
-			borrar(linea);
-			escribirTimer();//actualiza el valor de timer mostrado
-		}
-		P1OUT &=0x00;
+		mover_atras();
 		break;
 	case 64://Boton S1
-		if(editAlarm==1){//si esta en Modo deitar Alarma
-			sumar1horaAlarma();//suma 1 a la hora de la alarma
-			escribirAlarma();//actualiza la pantalla
-		}else{//si esta en  Modo editar reloj
-			sumar1hora();//suma 1 a la hora del reloj
-			escribirHora();//actualiza la pantalla
-		}
+		parar();
 		break;
 	case 128://boton S2
-		if(editAlarm==1){//si esta en Modo editar alarma
-			sumar1minAlarma();//suma 1 a el minutero de la alarma
-			escribirAlarma();//actualiza la pantalla
-		}else{//si esta en Modo editar reloj
-			sumar1min();//suma 1 al minuter del reloj
-			escribirHora();//actualiza la pantalla
-		}
+
 		break;
 	}
 
 	/***********************************************
    	 * HASTA AQUI BLOQUE CASE
-   	 ***********************************************
+   	 ***********************************************/
 	
 	P2IFG = 0;		//limpiamos todas las interrupciones
 	P2IE |= 0xC0; 	//interrupciones botones S1 y S2 (P2.6 y P2.7) reactivadas
 	P2IE |= 0x3E;  //interrupciones joystick (2.1-2.5) reactivadas
  return;
 }
-*/
 
 
 

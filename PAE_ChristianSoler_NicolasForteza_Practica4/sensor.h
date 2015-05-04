@@ -19,7 +19,7 @@ void init_sensor(){
 	gbpParameter[1] = OBSTACLE_VALUE; // Value from which something is considered an obstacle
 	TxPacket(SENSOR_ID,2,INST_WRITE);	
 }
-
+/*
 int obstacle_detection(){
 	//read OBSTACLE_DETECTION_FLAG
 	gbpParameter[0] = OBSTACLE_DETECTION_FLAG;
@@ -31,5 +31,15 @@ int obstacle_detection(){
 	 * BIT 2 - Obstacle detected by Right sensor 
 	 * BIT 1 - Obstacle detected by Center sensor
 	 * BIT 0 - Obstacle detected by Left sensor
-	 */
+	 *
+}
+*/
+int read_left(){
+	gbpParameter[0] = LEFT_IR_SENSOR_DATA;
+	gbpParameter[1] = 1; // Length of the data to be read
+
+	TxPacket(SENSOR_ID,2,INST_READ);
+
+	escribirRx(RxPacket());
+
 }

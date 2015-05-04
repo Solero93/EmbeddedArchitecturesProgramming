@@ -4,6 +4,12 @@
  *  Created on: 20/04/2015
  *      Author: mat.aules
  */
+//Variable PantallaLCD
+char cadena[17];
+char borrado[] = "                 ";
+unsigned char contraste   = 0x64;
+unsigned char iluminacion  = 30;
+unsigned char linea = 1;
 
 
 /**************************************************************************

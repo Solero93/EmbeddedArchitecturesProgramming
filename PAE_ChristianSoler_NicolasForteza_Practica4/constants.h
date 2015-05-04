@@ -1,6 +1,7 @@
 //Defines
 #include <msp430x54xA.h>
 #include <stdio.h>
+
 typedef unsigned char byte;
 #define TXD0_READY (UCA0IFG & UCTXIFG)
 #define RXD0_READY (UCA0IFG & UCRXIFG)
@@ -24,15 +25,4 @@ typedef unsigned char byte;
 #define P_LED 0x19
 
 //Estructura de el retorn
-typedef struct RxReturn{
-        byte StatusPacket[32];
-        byte time_out;
-} RxReturn;
 
-
-//Variable PantallaLCD
-char cadena[17];
-char borrado[] = "                 ";
-unsigned char contraste   = 0x64;
-unsigned char iluminacion  = 30;
-unsigned char linea = 1;

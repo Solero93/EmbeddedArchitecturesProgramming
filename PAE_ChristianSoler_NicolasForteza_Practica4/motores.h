@@ -58,63 +58,40 @@
 #define P_PUNCH_L (48)
 #define P_PUNCH_H (49)
 
-#define MOTOR_DEL_DERECHO 0x03
-#define FORWARD_MOTOR_DEL_DERECHO 0x01
-#define BACKWARD_MOTOR_DEL_DERECHO 0x04
+#define MOTOR_DEL_DERECHO 0x02
+#define FORWARD_MOTOR_DEL_DERECHO 0x05
+#define BACKWARD_MOTOR_DEL_DERECHO 0x01
 
-#define MOTOR_DEL_IZQUIERDO 0x02
+#define MOTOR_DEL_IZQUIERDO 0x03
 #define FORWARD_MOTOR_DEL_IZQUIERDO 0x01
-#define BACKWARD_MOTOR_DEL_IZQUIERDO 0x04
+#define BACKWARD_MOTOR_DEL_IZQUIERDO 0x05
 
 #define MOTOR_TRAS_DERECHO 0x01
-#define FORWARD_MOTOR_TRAS_DERECHO 0x01
-#define BACKWARD_MOTOR_TRAS_DERECHO 0x04
+#define FORWARD_MOTOR_TRAS_DERECHO 0x05
+#define BACKWARD_MOTOR_TRAS_DERECHO 0x01
 
 #define MOTOR_TRAS_IZQUIERDO 0x04
 #define FORWARD_MOTOR_TRAS_IZQUIERDO 0x01
-#define BACKWARD_MOTOR_TRAS_IZQUIERDO 0x04
+#define BACKWARD_MOTOR_TRAS_IZQUIERDO 0x05
 
 void angulo_a0(byte bID){
-        gbpParameter[0] = P_CW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
+        gbpParameter[0] = P_CW_ANGLE_LIMIT_L; //high de Speed de 0 a 3
         gbpParameter[1] = 0x00;
-        TxPacket(bID,2,INST_WRITE);
+        gbpParameter[2] = 0x00; //
+        gbpParameter[3] = 0x00; //
+        gbpParameter[4] = 0x00; //
+        TxPacket(bID,5,INST_WRITE);
         escribirRx(RxPacket());
 
-        gbpParameter[0] = P_CW_ANGLE_LIMIT_L; //low de speed de 0 a ff
-        gbpParameter[1] = 0x00; //
-        TxPacket(bID,2,INST_WRITE);
-        escribirRx(RxPacket());
 
-        gbpParameter[0] = P_CCW_ANGLE_LIMIT_H; //high de Speed de 0 a 3
-        gbpParameter[1] = 0x00; //
-        TxPacket(bID,2,INST_WRITE);
-        escribirRx(RxPacket());
-
-        gbpParameter[0] = P_CCW_ANGLE_LIMIT_L; //low de speed de 0 a ff
-        gbpParameter[1] = 0x00; //
-        TxPacket(bID,2,INST_WRITE);
-        escribirRx(RxPacket());
-
-        gbpParameter[0] = P_GOAL_POSITION_H; //high de Speed de 0 a 3
-        gbpParameter[1] = 0x00; //
-        TxPacket(bID,2,INST_WRITE);
-        escribirRx(RxPacket());
-
-        gbpParameter[0] = P_GOAL_POSITION_L; //low de speed de 0 a ff
-        gbpParameter[1] = 0x00; //
-        TxPacket(bID,2,INST_WRITE);
-        escribirRx(RxPacket());
 
 }
 
 void change_velocidad(byte bID, byte H, byte L){
-	gbpParameter[0] = P_GOAL_SPEED_H; //high de Speed de 0 a 3
-	gbpParameter[1] = H; //
-	TxPacket(bID,2,INST_WRITE);
-
-	gbpParameter[0] = P_GOAL_SPEED_L; //low de speed de 0 a ff
+	gbpParameter[0] = P_GOAL_SPEED_L; //high de Speed de 0 a 3
 	gbpParameter[1] = L; //
-	TxPacket(bID,2,INST_WRITE);
+	gbpParameter[2] = H; //
+	TxPacket(bID,3,INST_WRITE);
 }
 
 void init_motor(byte bID){
@@ -127,31 +104,40 @@ void init_motor(byte bID){
  */
 
 void mover_delante(){
-	change_velocidad(MOTOR_DEL_DERECHO, 1 | FORWARD_MOTOR_DEL_DERECHO, 0);
-	change_velocidad(MOTOR_DEL_IZQUIERDO, 1 | FORWARD_MOTOR_DEL_IZQUIERDO, 0);
-	change_velocidad(MOTOR_TRAS_DERECHO, 1 | FORWARD_MOTOR_TRAS_DERECHO, 0);
-	change_velocidad(MOTOR_TRAS_IZQUIERDO, 1 | FORWARD_MOTOR_TRAS_IZQUIERDO, 0);
+	change_velocidad(MOTOR_DEL_DERECHO, 5 & FORWARD_MOTOR_DEL_DERECHO, 0);
+	change_velocidad(MOTOR_DEL_IZQUIERDO,  5 & FORWARD_MOTOR_DEL_IZQUIERDO, 0);
+	change_velocidad(MOTOR_TRAS_DERECHO,  5 & FORWARD_MOTOR_TRAS_DERECHO, 0);
+	change_velocidad(MOTOR_TRAS_IZQUIERDO,  5 & FORWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
+
+void parar(){
+	change_velocidad(MOTOR_DEL_DERECHO,0, 0);
+	change_velocidad(MOTOR_DEL_IZQUIERDO, 0, 0);
+	change_velocidad(MOTOR_TRAS_DERECHO, 0, 0);
+	change_velocidad(MOTOR_TRAS_IZQUIERDO, 0, 0);
+}
+
+
 void mover_atras(){
-	change_velocidad(MOTOR_DEL_DERECHO, 1 | FORWARD_MOTOR_DEL_DERECHO, 0);
-	change_velocidad(MOTOR_DEL_IZQUIERDO, 1 | FORWARD_MOTOR_DEL_IZQUIERDO, 0);
-	change_velocidad(MOTOR_TRAS_DERECHO, 1 | FORWARD_MOTOR_TRAS_DERECHO, 0);
-	change_velocidad(MOTOR_TRAS_IZQUIERDO, 1 | FORWARD_MOTOR_TRAS_IZQUIERDO, 0);
+	change_velocidad(MOTOR_DEL_DERECHO,  5 & BACKWARD_MOTOR_DEL_DERECHO, 0);
+	change_velocidad(MOTOR_DEL_IZQUIERDO,  5 & BACKWARD_MOTOR_DEL_IZQUIERDO, 0);
+	change_velocidad(MOTOR_TRAS_DERECHO,  5 & BACKWARD_MOTOR_TRAS_DERECHO, 0);
+	change_velocidad(MOTOR_TRAS_IZQUIERDO,  5 & BACKWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
 void girar_derecha(){
-	change_velocidad(MOTOR_DEL_DERECHO, 1 | BACKWARD_MOTOR_DEL_DERECHO, 0);
-	change_velocidad(MOTOR_DEL_IZQUIERDO, 1 | FORWARD_MOTOR_DEL_IZQUIERDO, 0);
-	change_velocidad(MOTOR_TRAS_DERECHO, 1 | BACKWARD_MOTOR_TRAS_DERECHO, 0);
-	change_velocidad(MOTOR_TRAS_IZQUIERDO, 1 | FORWARD_MOTOR_TRAS_IZQUIERDO, 0);
+	change_velocidad(MOTOR_DEL_DERECHO,  5 & BACKWARD_MOTOR_DEL_DERECHO, 0);
+	change_velocidad(MOTOR_DEL_IZQUIERDO,  5 & FORWARD_MOTOR_DEL_IZQUIERDO, 0);
+	change_velocidad(MOTOR_TRAS_DERECHO,  5 & BACKWARD_MOTOR_TRAS_DERECHO, 0);
+	change_velocidad(MOTOR_TRAS_IZQUIERDO,  5 & FORWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
 void girar_izquierda(){
-	change_velocidad(MOTOR_DEL_DERECHO, 1 | FORWARD_MOTOR_DEL_DERECHO, 0);
-	change_velocidad(MOTOR_DEL_IZQUIERDO, 1 | BACKWARD_MOTOR_DEL_IZQUIERDO, 0);
-	change_velocidad(MOTOR_TRAS_DERECHO, 1 | FORWARD_MOTOR_TRAS_DERECHO, 0);
-	change_velocidad(MOTOR_TRAS_IZQUIERDO, 1 | BACKWARD_MOTOR_TRAS_IZQUIERDO, 0);
+	change_velocidad(MOTOR_DEL_DERECHO,  5 & FORWARD_MOTOR_DEL_DERECHO, 0);
+	change_velocidad(MOTOR_DEL_IZQUIERDO,  5 & BACKWARD_MOTOR_DEL_IZQUIERDO, 0);
+	change_velocidad(MOTOR_TRAS_DERECHO,  5 & FORWARD_MOTOR_TRAS_DERECHO, 0);
+	change_velocidad(MOTOR_TRAS_IZQUIERDO,  5 & BACKWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
 

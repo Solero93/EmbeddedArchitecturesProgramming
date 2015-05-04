@@ -10,6 +10,11 @@
 byte DatoLeido_UART;
 int Byte_Recibido;//1=si 0=no
 
+typedef struct RxReturn{
+        byte StatusPacket[32];
+        byte time_out;
+} RxReturn;
+
 
 volatile byte gbpRxInterruptBuffer[256];
 byte gbpParameter[128];
