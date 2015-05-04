@@ -40,6 +40,26 @@ int read_left(){
 
 	TxPacket(SENSOR_ID,2,INST_READ);
 
-	escribirRx(RxPacket());
+	escribirRxSensor(1,RxPacket());
+
+}
+
+int read_center(){
+	gbpParameter[0] = CENTER_IR_SENSOR_DATA;
+	gbpParameter[1] = 1; // Length of the data to be read
+
+	TxPacket(SENSOR_ID,2,INST_READ);
+
+	escribirRxSensor(2, RxPacket());
+
+}
+
+int read_right(){
+	gbpParameter[0] = RIGHT_IR_SENSOR_DATA;
+	gbpParameter[1] = 1; // Length of the data to be read
+
+	TxPacket(SENSOR_ID,2,INST_READ);
+
+	escribirRxSensor(3, RxPacket());
 
 }
