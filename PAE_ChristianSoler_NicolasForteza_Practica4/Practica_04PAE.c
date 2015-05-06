@@ -15,6 +15,8 @@
 
 long int i;
 
+byte referencia;
+
 
 
 
@@ -73,17 +75,24 @@ void escribirRxSensor(int linea, struct RxReturn respuesta ,char on){
 void tratarRespuesta(byte respuesta) {
 	sprintf(cadena," %x ", respuesta);
 	escribir(cadena, 1);
-	if((respuesta & 2) == 2){
-		parar();
-	}
+	if((respuesta & 2 ) | (respuesta) == 2){
 
-	else if((respuesta & 1) == 1){
+	}
+	else if (respuesta & referencia != referencia){
+		if(referencia)
+		girar_izquierda();
+	}
+	/*
+	else if((respuesta & 1) == 1){//
 		girar_derecha();
 	}
 
-	else if((respuesta & 4) == 4){
+	else if((respuesta & 4) == 4){//
 		girar_izquierda();
-	}else{
+	}
+
+	*/
+	else{
 		mover_delante();
 	}
 }
@@ -104,7 +113,7 @@ void main(void)
     _enable_interrupt();
   	linea++; 					//Aumentamos el valor de linea y con ello pasamos a la linea siguiente
 
-
+  	referencia=1;
 
   	P4OUT = 0x01;
 
