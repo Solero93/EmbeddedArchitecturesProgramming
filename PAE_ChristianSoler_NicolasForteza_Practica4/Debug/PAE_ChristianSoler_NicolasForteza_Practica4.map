@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v4.4.1                      
 ******************************************************************************
->> Linked Wed May 06 16:39:42 2015
+>> Linked Mon May 04 13:57:42 2015
 
 OUTPUT FILE NAME:   <PAE_ChristianSoler_NicolasForteza_Practica4.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs_noexit"  address: 000072d4
+ENTRY POINT SYMBOL: "_c_int00_noargs_noexit"  address: 000072e0
 
 
 MEMORY CONFIGURATION
@@ -20,8 +20,8 @@ MEMORY CONFIGURATION
   INFOA                 00001980   00000080  00000000  00000080  RWIX
   RAM                   00001c00   00000400  00000000  00000400  RWIX
   RESERVED_FOR_POWER_TE 00002000   00000022  00000000  00000022  RWIX
-  RAM2                  00002022   00003bde  00001191  00002a4d  RWIX
-  FLASH                 00005c00   0000a380  00001708  00008c78  RWIX
+  RAM2                  00002022   00003bde  00001190  00002a4e  RWIX
+  FLASH                 00005c00   0000a380  00001714  00008c6c  RWIX
   INT00                 0000ff80   00000002  00000002  00000000  RWIX
   INT01                 0000ff82   00000002  00000002  00000000  RWIX
   INT02                 0000ff84   00000002  00000002  00000000  RWIX
@@ -94,38 +94,38 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.bss       0    00002022    000010f1     UNINITIALIZED
+.bss       0    00002022    000010f0     UNINITIALIZED
                   00002022    00000f20     hal_lcd.obj (.bss)
-                  00002f42    000001d1     Practica_04PAE.obj (.bss)
+                  00002f42    000001d0     Practica_04PAE.obj (.bss)
 
 .stack     0    00005b60    000000a0     UNINITIALIZED
                   00005b60    00000004     rts430x_lc_rd.lib : boot.obj (.stack)
                   00005b64    0000009c     --HOLE--
 
-.const     0    00006898    000008f8     
-                  00006898    00000854     hal_lcd.obj (.const:fonts)
-                  000070ec    00000089     hal_lcd.obj (.const:.string:fonts_lookup)
-                  00007175    00000001     --HOLE-- [fill = 0]
-                  00007176    00000014     rts430x_lc_rd.lib : _printfi_min.obj (.const:.string)
-                  0000718a    00000006     Practica_04PAE.obj (.const:.string)
+.const     0    000068a4    000008f8     
+                  000068a4    00000854     hal_lcd.obj (.const:fonts)
+                  000070f8    00000089     hal_lcd.obj (.const:.string:fonts_lookup)
+                  00007181    00000001     --HOLE-- [fill = 0]
+                  00007182    00000014     rts430x_lc_rd.lib : _printfi_min.obj (.const:.string)
+                  00007196    00000006     Practica_04PAE.obj (.const:.string)
 
-.cinit     0    00007190    000000e8     
-                  00007190    000000b5     hal_lcd.obj (.cinit)
-                  00007245    00000001     --HOLE-- [fill = 0]
-                  00007246    0000002f     Practica_04PAE.obj (.cinit)
-                  00007275    00000001     --HOLE-- [fill = 0]
-                  00007276    00000002     (.pad.cinit) [fill = 0]
+.cinit     0    0000719c    000000e8     
+                  0000719c    000000b5     hal_lcd.obj (.cinit)
+                  00007251    00000001     --HOLE-- [fill = 0]
+                  00007252    0000002f     Practica_04PAE.obj (.cinit)
+                  00007281    00000001     --HOLE-- [fill = 0]
+                  00007282    00000002     (.pad.cinit) [fill = 0]
 
 .text:_isr 
-*          0    00007278    00000090     
-                  00007278    0000005c     Practica_04PAE.obj (.text:_isr:Port2_ISR)
-                  000072d4    0000001a     rts430x_lc_rd.lib : boot_special.obj (.text:_isr:_c_int00_noargs_noexit)
-                  000072ee    00000014     Practica_04PAE.obj (.text:_isr:USCI_A0_ISR)
-                  00007302    00000006     rts430x_lc_rd.lib : isr_trap.obj (.text:_isr:__TI_ISR_TRAP)
+*          0    00007284    00000090     
+                  00007284    0000005c     Practica_04PAE.obj (.text:_isr:Port2_ISR)
+                  000072e0    0000001a     rts430x_lc_rd.lib : boot_special.obj (.text:_isr:_c_int00_noargs_noexit)
+                  000072fa    00000014     Practica_04PAE.obj (.text:_isr:USCI_A0_ISR)
+                  0000730e    00000006     rts430x_lc_rd.lib : isr_trap.obj (.text:_isr:__TI_ISR_TRAP)
 
 .pinit     0    00005c00    00000000     UNINITIALIZED
 
-.text      0    00005c00    00000c98     
+.text      0    00005c00    00000ca4     
                   00005c00    00000132     rts430x_lc_rd.lib : _printfi_min.obj (.text:_setfield)
                   00005d32    00000106     hal_lcd.obj (.text:halLcdPrint)
                   00005e38    000000d2     rts430x_lc_rd.lib : _printfi_min.obj (.text:__TI_printfi_minimal)
@@ -136,48 +136,49 @@ section   page    origin      length       input sections
                   00006144    0000006c     hal_lcd.obj (.text:halLcdDrawCurrentBlock)
                   000061b0    0000005a     rts430x_lc_rd.lib : _printfi_min.obj (.text:_ltostr)
                   0000620a    00000058     Practica_04PAE.obj (.text:init_botons)
-                  00006262    00000052     Practica_04PAE.obj (.text:tratarRespuesta)
-                  000062b4    0000004c     rts430x_lc_rd.lib : _printfi_min.obj (.text:_pproc_diouxp)
-                  00006300    00000048                       : _printfi_min.obj (.text:_pproc_str)
-                  00006348    00000048     Practica_04PAE.obj (.text:init_UART)
-                  00006390    00000046     hal_lcd.obj (.text:halLcdSetBackLight)
-                  000063d6    00000044     rts430x_lc_rd.lib : sprintf.obj (.text:sprintf)
-                  0000641a    00000042     hal_lcd.obj (.text:halLcdSendCommand)
-                  0000645c    00000040     Practica_04PAE.obj (.text:escribirRxSensor)
-                  0000649c    0000003e     rts430x_lc_rd.lib : _printfi_min.obj (.text:_getarg_diouxp)
-                  000064da    0000003a     Practica_04PAE.obj (.text:init_UCS)
-                  00006514    00000034     Practica_04PAE.obj (.text:girar_izquierda)
-                  00006548    00000034     hal_lcd.obj (.text:halLcdSetAddress)
-                  0000657c    00000032     Practica_04PAE.obj (.text:obstacle_detection)
-                  000065ae    00000030     Practica_04PAE.obj (.text:main)
-                  000065de    00000030     Practica_04PAE.obj (.text:mover_atras)
-                  0000660e    00000030     Practica_04PAE.obj (.text:mover_delante)
-                  0000663e    0000002e     hal_lcd.obj (.text:halLcdBackLightInit)
-                  0000666c    0000002c     Practica_04PAE.obj (.text:girar_derecha)
-                  00006698    0000002c     Practica_04PAE.obj (.text:parar)
-                  000066c4    00000024     hal_lcd.obj (.text:halLcdClearScreen)
-                  000066e8    00000024     hal_lcd.obj (.text:halLcdPrintLine)
-                  0000670c    00000022     hal_lcd.obj (.text:halLcdSetContrast)
-                  0000672e    00000020     rts430x_lc_rd.lib : sprintf.obj (.text:_outs)
-                  0000674e    0000001e     hal_lcd.obj (.text:halLcdActive)
-                  0000676c    0000001e     Practica_04PAE.obj (.text:init_LCD)
-                  0000678a    0000001e     rts430x_lc_rd.lib : memccpy.obj (.text:memccpy)
-                  000067a8    0000001c     Practica_04PAE.obj (.text:change_velocidad)
-                  000067c4    0000001a     rts430x_lc_rd.lib : _printfi_min.obj (.text:_div)
-                  000067de    00000016                       : memset.obj (.text:memset)
-                  000067f4    00000016                       : div16u.obj (.text)
-                  0000680a    00000014                       : sprintf.obj (.text:_outc)
-                  0000681e    00000014                       : memcpy.obj (.text:memcpy)
-                  00006832    00000014                       : mult16.obj (.text)
-                  00006846    0000000e     hal_lcd.obj (.text:halLcdDrawBlock)
-                  00006854    0000000e     rts430x_lc_rd.lib : strlen.obj (.text:strlen)
-                  00006862    0000000c     Practica_04PAE.obj (.text:TxUAC0)
-                  0000686e    0000000a     rts430x_lc_rd.lib : lsl16.obj (.text)
-                  00006878    00000008     Practica_04PAE.obj (.text:Sentit_Dades_Rx)
-                  00006880    00000008     Practica_04PAE.obj (.text:Sentit_Dades_Tx)
-                  00006888    00000008     Practica_04PAE.obj (.text:escribir)
-                  00006890    00000004     rts430x_lc_rd.lib : pre_init.obj (.text:_system_pre_init)
-                  00006894    00000004                       : exit.obj (.text:abort)
+                  00006262    0000004c     rts430x_lc_rd.lib : _printfi_min.obj (.text:_pproc_diouxp)
+                  000062ae    00000048                       : _printfi_min.obj (.text:_pproc_str)
+                  000062f6    00000048     Practica_04PAE.obj (.text:init_UART)
+                  0000633e    00000046     hal_lcd.obj (.text:halLcdSetBackLight)
+                  00006384    00000044     rts430x_lc_rd.lib : sprintf.obj (.text:sprintf)
+                  000063c8    00000042     hal_lcd.obj (.text:halLcdSendCommand)
+                  0000640a    00000040     Practica_04PAE.obj (.text:escribirRxSensor)
+                  0000644a    0000003e     rts430x_lc_rd.lib : _printfi_min.obj (.text:_getarg_diouxp)
+                  00006488    0000003a     Practica_04PAE.obj (.text:init_UCS)
+                  000064c2    00000034     Practica_04PAE.obj (.text:girar_izquierda)
+                  000064f6    00000034     hal_lcd.obj (.text:halLcdSetAddress)
+                  0000652a    00000034     Practica_04PAE.obj (.text:main)
+                  0000655e    00000030     Practica_04PAE.obj (.text:mover_atras)
+                  0000658e    00000030     Practica_04PAE.obj (.text:mover_delante)
+                  000065be    00000030     Practica_04PAE.obj (.text:read_right)
+                  000065ee    0000002e     hal_lcd.obj (.text:halLcdBackLightInit)
+                  0000661c    0000002e     Practica_04PAE.obj (.text:read_center)
+                  0000664a    0000002e     Practica_04PAE.obj (.text:read_left)
+                  00006678    0000002c     Practica_04PAE.obj (.text:girar_derecha)
+                  000066a4    0000002c     Practica_04PAE.obj (.text:parar)
+                  000066d0    00000024     hal_lcd.obj (.text:halLcdClearScreen)
+                  000066f4    00000024     hal_lcd.obj (.text:halLcdPrintLine)
+                  00006718    00000022     hal_lcd.obj (.text:halLcdSetContrast)
+                  0000673a    00000020     rts430x_lc_rd.lib : sprintf.obj (.text:_outs)
+                  0000675a    0000001e     hal_lcd.obj (.text:halLcdActive)
+                  00006778    0000001e     Practica_04PAE.obj (.text:init_LCD)
+                  00006796    0000001e     rts430x_lc_rd.lib : memccpy.obj (.text:memccpy)
+                  000067b4    0000001c     Practica_04PAE.obj (.text:change_velocidad)
+                  000067d0    0000001a     rts430x_lc_rd.lib : _printfi_min.obj (.text:_div)
+                  000067ea    00000016                       : memset.obj (.text:memset)
+                  00006800    00000016                       : div16u.obj (.text)
+                  00006816    00000014                       : sprintf.obj (.text:_outc)
+                  0000682a    00000014                       : memcpy.obj (.text:memcpy)
+                  0000683e    00000014                       : mult16.obj (.text)
+                  00006852    0000000e     hal_lcd.obj (.text:halLcdDrawBlock)
+                  00006860    0000000e     rts430x_lc_rd.lib : strlen.obj (.text:strlen)
+                  0000686e    0000000c     Practica_04PAE.obj (.text:TxUAC0)
+                  0000687a    0000000a     rts430x_lc_rd.lib : lsl16.obj (.text)
+                  00006884    00000008     Practica_04PAE.obj (.text:Sentit_Dades_Rx)
+                  0000688c    00000008     Practica_04PAE.obj (.text:Sentit_Dades_Tx)
+                  00006894    00000008     Practica_04PAE.obj (.text:escribir)
+                  0000689c    00000004     rts430x_lc_rd.lib : pre_init.obj (.text:_system_pre_init)
+                  000068a0    00000004                       : exit.obj (.text:abort)
 
 .int00     0    0000ff80    00000002     
                   0000ff80    00000002     rts430x_lc_rd.lib : int00.obj (.int00)
@@ -461,7 +462,7 @@ ffffffff  .text
 00000733  ADC12MEM9_H             
 00000732  ADC12MEM9_L             
 00002f44  Byte_Recibido           
-00006894  C$$EXIT                 
+000068a0  C$$EXIT                 
 00000150  CRCDI                   
 00000152  CRCDIRB                 
 00000153  CRCDIRB_H               
@@ -534,7 +535,7 @@ ffffffff  .text
 00000146  FCTL4                   
 00000147  FCTL4_H                 
 00000146  FCTL4_L                 
-0000686e  I_LSL                   
+0000687a  I_LSL                   
 000020a6  LCD_MEM                 
 000020a0  LcdAddress              
 00002022  LcdInitMacro            
@@ -736,7 +737,7 @@ ffffffff  .text
 0000012e  PMMRIE                  
 0000012f  PMMRIE_H                
 0000012e  PMMRIE_L                
-00007278  Port2_ISR               
+00007284  Port2_ISR               
 00000158  RCCTL0                  
 00000159  RCCTL0_H                
 00000158  RCCTL0_L                
@@ -851,8 +852,8 @@ ffffffff  .text
 0000019a  SYSUNIV                 
 0000019b  SYSUNIV_H               
 0000019a  SYSUNIV_L               
-00006878  Sentit_Dades_Rx         
-00006880  Sentit_Dades_Tx         
+00006884  Sentit_Dades_Rx         
+0000688c  Sentit_Dades_Tx         
 00000352  TA0CCR0                 
 00000354  TA0CCR1                 
 00000356  TA0CCR2                 
@@ -896,7 +897,7 @@ ffffffff  .text
 000003ee  TB0IV                   
 000003d0  TB0R                    
 00006056  TxPacket                
-00006862  TxUAC0                  
+0000686e  TxUAC0                  
 000005d0  UCA0ABCTL               
 000005c6  UCA0BRW                 
 000005c7  UCA0BRW_H               
@@ -1072,13 +1073,13 @@ ffffffff  .text
 00000170  UCSCTL8                 
 00000171  UCSCTL8_H               
 00000170  UCSCTL8_L               
-000072ee  USCI_A0_ISR             
+000072fa  USCI_A0_ISR             
 0000015c  WDTCTL                  
 0000015d  WDTCTL_H                
 0000015c  WDTCTL_L                
 00005c00  __STACK_END             
 000000a0  __STACK_SIZE            
-00007302  __TI_ISR_TRAP           
+0000730e  __TI_ISR_TRAP           
 0000ff80  __TI_int00              
 0000ff82  __TI_int01              
 0000ff84  __TI_int02              
@@ -1146,72 +1147,72 @@ ffffffff  .text
 ffffffff  __binit__               
 00002022  __bss__                 
 ffffffff  __c_args__              
-00007190  __cinit__               
-000067f4  __divu                  
-00003113  __end__                 
+0000719c  __cinit__               
+00006800  __divu                  
+00003112  __end__                 
 ffffffff  __etext__               
-00006832  __mpyi                  
-00006832  __mpyi_sw               
+0000683e  __mpyi                  
+0000683e  __mpyi_sw               
 ffffffff  __pinit__               
-000067f4  __remu                  
+00006800  __remu                  
 ffffffff  __text__                
 000060d2  _auto_init_hold_wdt     
-000072d4  _c_int00_noargs_noexit  
+000072e0  _c_int00_noargs_noexit  
 0000fffe  _reset_vector           
 00005b60  _stack                  
-00006890  _system_pre_init        
-00006894  abort                   
+0000689c  _system_pre_init        
+000068a0  abort                   
 000020a5  backlight               
 ffffffff  binit                   
 000030f8  borrado                 
 000030e6  cadena                  
-000067a8  change_velocidad        
-00007190  cinit                   
+000067b4  change_velocidad        
+0000719c  cinit                   
 000020a4  contrast                
 0000310a  contraste               
-00003113  end                     
-00006888  escribir                
-0000645c  escribirRxSensor        
+00003112  end                     
+00006894  escribir                
+0000640a  escribirRxSensor        
 ffffffff  etext                   
-00006898  fonts                   
-000070ec  fonts_lookup            
+000068a4  fonts                   
+000070f8  fonts_lookup            
 00003046  gbpParameter            
 00002f46  gbpRxInterruptBuffer    
 000030c6  gbpTxBuffer             
-0000666c  girar_derecha           
-00006514  girar_izquierda         
-0000674e  halLcdActive            
-0000663e  halLcdBackLightInit     
-000066c4  halLcdClearScreen       
-00006846  halLcdDrawBlock         
+00006678  girar_derecha           
+000064c2  girar_izquierda         
+0000675a  halLcdActive            
+000065ee  halLcdBackLightInit     
+000066d0  halLcdClearScreen       
+00006852  halLcdDrawBlock         
 00006144  halLcdDrawCurrentBlock  
 00005fc8  halLcdInit              
 00005d32  halLcdPrint             
-000066e8  halLcdPrintLine         
-0000641a  halLcdSendCommand       
-00006548  halLcdSetAddress        
-00006390  halLcdSetBackLight      
-0000670c  halLcdSetContrast       
+000066f4  halLcdPrintLine         
+000063c8  halLcdSendCommand       
+000064f6  halLcdSetAddress        
+0000633e  halLcdSetBackLight      
+00006718  halLcdSetContrast       
 0000310e  i                       
 0000310b  iluminacion             
-0000676c  init_LCD                
-00006348  init_UART               
-000064da  init_UCS                
+00006778  init_LCD                
+000062f6  init_UART               
+00006488  init_UCS                
 0000620a  init_botons             
 0000310c  linea                   
-000065ae  main                    
-0000678a  memccpy                 
-0000681e  memcpy                  
-000067de  memset                  
-000065de  mover_atras             
-0000660e  mover_delante           
-0000657c  obstacle_detection      
-00006698  parar                   
+0000652a  main                    
+00006796  memccpy                 
+0000682a  memcpy                  
+000067ea  memset                  
+0000655e  mover_atras             
+0000658e  mover_delante           
+000066a4  parar                   
 ffffffff  pinit                   
-00003112  referencia              
-000063d6  sprintf                 
-00006854  strlen                  
-00006262  tratarRespuesta         
+0000661c  read_center             
+0000664a  read_left               
+000065be  read_right              
+00006384  sprintf                 
+00006860  strlen                  
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -1921,9 +1922,8 @@ address   name
 0000310b  iluminacion             
 0000310c  linea                   
 0000310e  i                       
-00003112  referencia              
-00003113  __end__                 
-00003113  end                     
+00003112  __end__                 
+00003112  end                     
 00005b60  _stack                  
 00005c00  __STACK_END             
 00005d32  halLcdPrint             
@@ -1934,53 +1934,54 @@ address   name
 000060d2  _auto_init_hold_wdt     
 00006144  halLcdDrawCurrentBlock  
 0000620a  init_botons             
-00006262  tratarRespuesta         
-00006348  init_UART               
-00006390  halLcdSetBackLight      
-000063d6  sprintf                 
-0000641a  halLcdSendCommand       
-0000645c  escribirRxSensor        
-000064da  init_UCS                
-00006514  girar_izquierda         
-00006548  halLcdSetAddress        
-0000657c  obstacle_detection      
-000065ae  main                    
-000065de  mover_atras             
-0000660e  mover_delante           
-0000663e  halLcdBackLightInit     
-0000666c  girar_derecha           
-00006698  parar                   
-000066c4  halLcdClearScreen       
-000066e8  halLcdPrintLine         
-0000670c  halLcdSetContrast       
-0000674e  halLcdActive            
-0000676c  init_LCD                
-0000678a  memccpy                 
-000067a8  change_velocidad        
-000067de  memset                  
-000067f4  __divu                  
-000067f4  __remu                  
-0000681e  memcpy                  
-00006832  __mpyi                  
-00006832  __mpyi_sw               
-00006846  halLcdDrawBlock         
-00006854  strlen                  
-00006862  TxUAC0                  
-0000686e  I_LSL                   
-00006878  Sentit_Dades_Rx         
-00006880  Sentit_Dades_Tx         
-00006888  escribir                
-00006890  _system_pre_init        
-00006894  C$$EXIT                 
-00006894  abort                   
-00006898  fonts                   
-000070ec  fonts_lookup            
-00007190  __cinit__               
-00007190  cinit                   
-00007278  Port2_ISR               
-000072d4  _c_int00_noargs_noexit  
-000072ee  USCI_A0_ISR             
-00007302  __TI_ISR_TRAP           
+000062f6  init_UART               
+0000633e  halLcdSetBackLight      
+00006384  sprintf                 
+000063c8  halLcdSendCommand       
+0000640a  escribirRxSensor        
+00006488  init_UCS                
+000064c2  girar_izquierda         
+000064f6  halLcdSetAddress        
+0000652a  main                    
+0000655e  mover_atras             
+0000658e  mover_delante           
+000065be  read_right              
+000065ee  halLcdBackLightInit     
+0000661c  read_center             
+0000664a  read_left               
+00006678  girar_derecha           
+000066a4  parar                   
+000066d0  halLcdClearScreen       
+000066f4  halLcdPrintLine         
+00006718  halLcdSetContrast       
+0000675a  halLcdActive            
+00006778  init_LCD                
+00006796  memccpy                 
+000067b4  change_velocidad        
+000067ea  memset                  
+00006800  __divu                  
+00006800  __remu                  
+0000682a  memcpy                  
+0000683e  __mpyi                  
+0000683e  __mpyi_sw               
+00006852  halLcdDrawBlock         
+00006860  strlen                  
+0000686e  TxUAC0                  
+0000687a  I_LSL                   
+00006884  Sentit_Dades_Rx         
+0000688c  Sentit_Dades_Tx         
+00006894  escribir                
+0000689c  _system_pre_init        
+000068a0  C$$EXIT                 
+000068a0  abort                   
+000068a4  fonts                   
+000070f8  fonts_lookup            
+0000719c  __cinit__               
+0000719c  cinit                   
+00007284  Port2_ISR               
+000072e0  _c_int00_noargs_noexit  
+000072fa  USCI_A0_ISR             
+0000730e  __TI_ISR_TRAP           
 0000ff80  __TI_int00              
 0000ff82  __TI_int01              
 0000ff84  __TI_int02              

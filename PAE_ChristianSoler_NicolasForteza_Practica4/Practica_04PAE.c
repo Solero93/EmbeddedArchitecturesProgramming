@@ -14,7 +14,6 @@
 #include "sensor.h"
 
 long int i;
-byte referencia;
 
 
 
@@ -65,36 +64,13 @@ void escribirRx(struct RxReturn respuesta ){
     }
 }
 
-void escribirRxSensor(int linea, struct RxReturn respuesta){
+void escribirRxSensor(int linea, struct RxReturn respuesta ,char on){
 
     sprintf(cadena," %x ", respuesta.StatusPacket[5]);
     escribir(cadena, linea);
 }
 
-/*
- * TRATAR SENSORES
- *
- *
- *
- */
 
-void tratarRespuesta(byte respuesta) {
-	sprintf(cadena," %x ", respuesta);
-	escribir(cadena, 1);
-	if((respuesta & 2) == 2){
-		parar();
-	}
-
-	else if((respuesta & 1) == 1){
-		girar_derecha();
-	}
-
-	else if((respuesta & 4) == 4){
-		girar_izquierda();
-	}else{
-		mover_delante();
-	}
-}
 
 /************
  * MAIN
@@ -150,11 +126,10 @@ void main(void)
    	{
   		//el programa espera a una interrupcion
 
-  		//read_left();
-  		//read_center();
-  		//read_right();
-  		tratarRespuesta(obstacle_detection());
-  		//obstacle_detection();
+  		read_left();
+  		read_center();
+  		read_right();
+
    	}while(1);
 }
 
