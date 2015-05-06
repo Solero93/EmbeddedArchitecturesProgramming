@@ -6,7 +6,7 @@
 #define OBSTACLE_DETECTED_COMPARE 52
 
 #define SENSOR_ID 100
-#define OBSTACLE_VALUE 5 // Needs to be changed and tried out
+#define OBSTACLE_VALUE 0x0F // Needs to be changed and tried out
 
 void init_sensor(){
 	//set OBSTACLE_DETECTION_FLAG to 0
@@ -19,21 +19,22 @@ void init_sensor(){
 	gbpParameter[1] = OBSTACLE_VALUE; // Value from which something is considered an obstacle
 	TxPacket(SENSOR_ID,2,INST_WRITE);	
 }
-/*
+
 int obstacle_detection(){
 	//read OBSTACLE_DETECTION_FLAG
 	gbpParameter[0] = OBSTACLE_DETECTION_FLAG;
 	gbpParameter[1] = 1; // Length of the data to be read
-	TxPacket(SENSOR_ID,1,INST_READ);
-	struct RxReturn = RxPacket();
-	return RxReturn.StatusPacket[5]; // The data read is PARAMETER 1
+	TxPacket(SENSOR_ID,2,INST_READ);
+	struct RxReturn respuesta= RxPacket();
+	//escribirRxSensor(4, respuesta);
+	return respuesta.StatusPacket[5]; // The data read is PARAMETER 1
 	/**
 	 * BIT 2 - Obstacle detected by Right sensor 
 	 * BIT 1 - Obstacle detected by Center sensor
 	 * BIT 0 - Obstacle detected by Left sensor
-	 *
+	 */
 }
-*/
+
 int read_left(){
 	gbpParameter[0] = LEFT_IR_SENSOR_DATA;
 	gbpParameter[1] = 1; // Length of the data to be read

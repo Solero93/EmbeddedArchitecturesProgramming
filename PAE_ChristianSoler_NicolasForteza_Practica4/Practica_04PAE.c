@@ -70,7 +70,23 @@ void escribirRxSensor(int linea, struct RxReturn respuesta ,char on){
     escribir(cadena, linea);
 }
 
+void tratarRespuesta(byte respuesta) {
+	sprintf(cadena," %x ", respuesta);
+	escribir(cadena, 1);
+	if((respuesta & 2) == 2){
+		parar();
+	}
 
+	else if((respuesta & 1) == 1){
+		girar_derecha();
+	}
+
+	else if((respuesta & 4) == 4){
+		girar_izquierda();
+	}else{
+		mover_delante();
+	}
+}
 
 /************
  * MAIN
@@ -130,6 +146,7 @@ void main(void)
   		read_center();
   		read_right();
 
+  		tratarRespuesta(obstacle_detection());
    	}while(1);
 }
 
