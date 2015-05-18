@@ -6,7 +6,7 @@
 #define OBSTACLE_DETECTED_COMPARE 52
 
 #define SENSOR_ID 100
-#define OBSTACLE_VALUE 0x0F // Needs to be changed and tried out
+#define OBSTACLE_VALUE 0x09 // Needs to be changed and tried out
 
 void init_sensor(){
 	//set OBSTACLE_DETECTION_FLAG to 0

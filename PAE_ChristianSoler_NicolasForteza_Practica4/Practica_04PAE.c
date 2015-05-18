@@ -17,7 +17,8 @@ long int i;
 
 byte referencia;
 
-
+int isNotReferencia, bparar;
+long int calcul;
 
 
 /**************************************************************************
@@ -73,30 +74,65 @@ void escribirRxSensor(int linea, struct RxReturn respuesta ,char on){
 }
 
 void tratarRespuesta(byte respuesta) {
-	sprintf(cadena," %x ", respuesta);
-	escribir(cadena, 1);
-	if((respuesta & 2 ) | (respuesta) == 2){
 
+	 if(((respuesta & 2) == 2) && ((respuesta & referencia) == referencia)){//
+		 	 girar_90_derecha();
+			recolocar_izquierda();
+		}
+	else if ((respuesta & referencia) != referencia){
+		if(referencia==4) {//referencia derecha
+			girar_derecha();
+		}else if(referencia==1){//referencia izquierda
+
+			girar_izquierda();
+		}
 	}
-	else if (respuesta & referencia != referencia){
-		if(referencia)
-		girar_izquierda();
-	}
-	/*
-	else if((respuesta & 1) == 1){//
-		girar_derecha();
+
+	else if((respuesta & 2) == 2){//
+		recolocar_izquierda();
 	}
 
 	else if((respuesta & 4) == 4){//
 		girar_izquierda();
 	}
 
-	*/
 	else{
 		mover_delante();
 	}
 }
 
+void recolocar_izquierda(){
+	mover_delante();
+	while(obstacle_detection() & 1 == 1);
+	girar_derecha();
+	while(obstacle_detection() & 1 != 1);
+//	parar();
+}
+
+void recolocar_dercha(){
+	girar_izquierda();
+	while(obstacle_detection() != 4);
+	girar_derecha();
+	while(obstacle_detection() == 4);
+	parar();
+}
+
+void initRef(){
+	int respuesta;
+	while(isNotReferencia){
+		respuesta= obstacle_detection();
+		if(respuesta & 1 == 1){
+			recolocar_izquierda();
+		}else if(respuesta & 4 == 4){
+			recolocar_derecha();
+		}else if(respuesta & 2 == 2){
+			//TODO
+		}else {
+			 mover_delante();
+		}
+
+	}
+}
 /************
  * MAIN
  ************
@@ -106,6 +142,8 @@ void main(void)
 	init_UCS();
 	init_UART();
    	WDTCTL = WDTPW+WDTHOLD;       	// Paramos el watchdog timer
+   	isNotReferencia=1;
+   	bparar=1;
 
   	init_botons();					// Iniciamos los botones y Leds.
 
@@ -116,47 +154,27 @@ void main(void)
   	referencia=1;
 
   	P4OUT = 0x01;
-
-
-  	//AQUI------Nuevo--------------------------
-/*
-  	init_motor(1);
-  	init_motor(2);
-  	init_motor(3);
-  	init_motor(4);
-*/
-//  	angulo_a0(1);
-//  	escribirRx(RxPacket());
- // 	change_velocidad(1, 1, 0);
- // 	escribirRx(RxPacket());
-
-  	//gbpParameter[0] = P_LED; //Address of LED
-  	//gbpParameter[1] = 1; //Writing Data encender
-  	/*bTxPacketLength =*/
-  	//TxPacket(4,0,INST_PING);
-  	//escribirRx(RxPacket());
-  	//TxPacket(4,2,INST_WRITE);
-  	//gbpParameter[1] = 0;//apagar
-  	//TxPacket(1,2,INST_WRITE);
-  	//bRxPacketLength = RxPacket(DEFAULT_RETURN_PACKET_SIZE);
-
-
-
-  	//-----------------------
-
-
+  	calcul=0;
 
 
   	do//do While de todo el programa
    	{
+  		//do{
   		//el programa espera a una interrupcion
 
-  		read_left();
-  		read_center();
-  		read_right();
-
+  			read_left();
+  			read_center();
+  			 read_right();
+  			sprintf(cadena," %d ", obstacle_detection());
+  			escribir(cadena, 4);
+  		//tratarRespuesta(obstacle_detection());
+  		//}while(bparar);*/
+  		//sprintf(cadena," %d ", calcul);
+  		//escribir(cadena, 1);
+  		//calcul++;
   		tratarRespuesta(obstacle_detection());
    	}while(1);
+
 }
 
 
@@ -202,16 +220,22 @@ __interrupt void Port2_ISR(void)
 
 		break;
 	case 16://Joystick Arriba
-		mover_delante();
+		calcul=0;
+		girar_izquierda();
 		break;
 	case 32://Joystick abajo
-		mover_atras();
+		parar();
+
 		break;
 	case 64://Boton S1
 		parar();
 		break;
 	case 128://boton S2
-
+		if(bparar==0){
+			bparar=1;
+		}else{
+			bparar=0;
+		}
 		break;
 	}
 

@@ -74,6 +74,8 @@
 #define FORWARD_MOTOR_TRAS_IZQUIERDO 0x01
 #define BACKWARD_MOTOR_TRAS_IZQUIERDO 0x05
 
+#define DELAY_90 (650)
+
 void angulo_a0(byte bID){
         gbpParameter[0] = P_CW_ANGLE_LIMIT_L; //high de Speed de 0 a 3
         gbpParameter[1] = 0x00;
@@ -138,6 +140,25 @@ void girar_izquierda(){
 	change_velocidad(MOTOR_DEL_IZQUIERDO,  5 & BACKWARD_MOTOR_DEL_IZQUIERDO, 0);
 	change_velocidad(MOTOR_TRAS_DERECHO,  5 & FORWARD_MOTOR_TRAS_DERECHO, 0);
 	change_velocidad(MOTOR_TRAS_IZQUIERDO,  5 & BACKWARD_MOTOR_TRAS_IZQUIERDO, 0);
+}
+
+void girar_90_izquierda(){
+	volatile int i;
+	girar_izquierda();
+	for(i=0; i<=DELAY_90; i++){
+		continue;
+	}
+	parar();
+}
+
+void girar_90_derecha(){
+	volatile int i;
+	girar_derecha();
+	for(i=0; i<=DELAY_90; i++){
+		continue;
+	}
+
+//	parar();
 }
 
 
