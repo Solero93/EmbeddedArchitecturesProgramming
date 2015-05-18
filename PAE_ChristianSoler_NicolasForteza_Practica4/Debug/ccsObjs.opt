@@ -1,1 +1,1 @@
-"./Practica_04PAE.obj" "./control_pantalla.obj" "./fisica.obj" "./gestion_robot.obj" "./hal_lcd.obj" "../lnk_msp430f5438a_mod.cmd" -l"libc.a" -l"libmath.a" 
+"./Practica_04PAE.obj" "./hal_lcd.obj" "../lnk_msp430f5438a_mod.cmd" -l"libc.a" -l"libmath.a" 

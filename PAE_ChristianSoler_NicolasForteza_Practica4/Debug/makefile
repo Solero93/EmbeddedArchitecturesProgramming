@@ -9,9 +9,6 @@ CG_TOOL_ROOT := c:/ti/ccsv6/tools/compiler/ti-cgt-msp430_4.4.1
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
 "./Practica_04PAE.obj" \
-"./control_pantalla.obj" \
-"./fisica.obj" \
-"./gestion_robot.obj" \
 "./hal_lcd.obj" \
 "../lnk_msp430f5438a_mod.cmd" \
 -l"libc.a" \
@@ -145,8 +142,8 @@ PAE_ChristianSoler_NicolasForteza_Practica4.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "Practica_04PAE.pp" "control_pantalla.pp" "fisica.pp" "gestion_robot.pp" "hal_lcd.pp" 
-	-$(RM) "Practica_04PAE.obj" "control_pantalla.obj" "fisica.obj" "gestion_robot.obj" "hal_lcd.obj" 
+	-$(RM) "Practica_04PAE.pp" "hal_lcd.pp" 
+	-$(RM) "Practica_04PAE.obj" "hal_lcd.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
