@@ -6,7 +6,8 @@
 #define OBSTACLE_DETECTED_COMPARE 52
 
 #define SENSOR_ID 100
-#define OBSTACLE_VALUE 0x0F // Needs to be changed and tried out
+#define OBSTACLE_VALUE 0x50
+#define VALUE_DISTANT 0x0F
 
 void init_sensor(){
 	//set OBSTACLE_DETECTION_FLAG to 0
@@ -41,7 +42,7 @@ int read_left(){
 
 	TxPacket(SENSOR_ID,2,INST_READ);
 
-	escribirRxSensor(1,RxPacket());
+	return RxPacket().StatusPacket[5];
 
 }
 
@@ -51,7 +52,7 @@ int read_center(){
 
 	TxPacket(SENSOR_ID,2,INST_READ);
 
-	escribirRxSensor(2, RxPacket());
+	return RxPacket().StatusPacket[5];
 
 }
 
@@ -61,6 +62,24 @@ int read_right(){
 
 	TxPacket(SENSOR_ID,2,INST_READ);
 
-	escribirRxSensor(3, RxPacket());
+	return RxPacket().StatusPacket[5];
 
 }
+
+
+int lejos_izquierda(){
+	if(read_left()< VALUE_DISTANT){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+int lejos_derecha(){
+	if(read_right()< VALUE_DISTANT){
+		return 1;
+	}else{
+		return 0;
+	}
+}
+

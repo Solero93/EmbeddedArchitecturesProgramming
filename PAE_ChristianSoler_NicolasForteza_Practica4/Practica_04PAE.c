@@ -12,7 +12,7 @@
 
 #include "motores.h"
 #include "sensor.h"
-
+volatile long int delay_cont;
 long int i;
 
 byte referencia;
@@ -56,6 +56,12 @@ void init_botons(void)
 
 }
 
+void init_B0(void){
+	TB0CTL= 0x0110;//ACLK y UP
+	TB0CCR0 = 0x20;//MILISEGUNDO
+	TB0CCTL0 = CCIE;//enable interrupt
+}
+
 
 void escribirRx(struct RxReturn respuesta ){
 	byte bCount;
@@ -97,52 +103,123 @@ void tratarRespuesta(byte respuesta) {
 	}
 }
 
+void delay(long int algo){
+	delay_cont=algo;
+	while(delay_cont>0);
+	delay_cont=-1;
+}
+
+void circular_ref_derecha(){
+	int arreglaProblemas=0;
+	while(1){
+		if(arreglaProblemas>=5){
+			mover_delante();
+			delay(500);
+			arreglaProblemas=0;
+		}
+		if((obstacle_detection() & 2) == 2){//MIRAR DELANTE
+
+			girar_izquierda();
+			delay(1000);
+
+		}else if((obstacle_detection() & 4) == 4){//CERCA derecha?
+
+			girar_izquierda();
+			delay(500);
+
+		}else if(lejos_derecha()){
+
+			girar_derecha();
+			delay(500);
+
+
+		}else{
+			arreglaProblemas=0;
+			mover_delante();
+			delay(500);
+		}
+		arreglaProblemas++;
+	}
+}
+
+
+void circular_ref_izquierda(){
+	int arreglaProblemas=0;
+	while(1){
+		if(arreglaProblemas>=5){
+			mover_delante();
+			delay(500);
+			arreglaProblemas=0;
+		}
+		if((obstacle_detection() & 2) == 2){//MIRAR DELANTE
+
+			girar_derecha();
+			delay(1000);
+
+		}else if((obstacle_detection() & 1) == 1){//CERCA izquierda?
+
+			girar_derecha();
+			delay(500);
+		}else if(lejos_izquierda()){
+
+			girar_izquierda();
+			delay(500);
+		}else{
+			arreglaProblemas=0;
+			mover_delante();
+			delay(500);
+		}
+		arreglaProblemas++;
+	}
+
+}
+
+void init_lado(){
+	int respuesta;
+	while(!referencia){
+
+		respuesta=obstacle_detection();
+
+		if((respuesta & 2 )  == 2){
+			girar_derecha();
+			delay(1000);
+
+			referencia=1; //referencia izquierda
+		}
+
+
+		else if((respuesta & 1) == 1){//
+			referencia=1; //referencia izquierda
+		}
+
+		else if((respuesta & 4) == 4){//
+			referencia=2; //referencia derecha
+		}else{
+			mover_delante();
+			delay(500);
+		}
+	}
+}
 /************
  * MAIN
  ************
  */
 void main(void)
 {
-	init_UCS();
+  	init_UCS();
 	init_UART();
    	WDTCTL = WDTPW+WDTHOLD;       	// Paramos el watchdog timer
 
   	init_botons();					// Iniciamos los botones y Leds.
+  	init_B0();
 
     init_LCD();						// Inicializamos la pantalla
     _enable_interrupt();
   	linea++; 					//Aumentamos el valor de linea y con ello pasamos a la linea siguiente
 
-  	referencia=1;
+  	referencia=0;
 
   	P4OUT = 0x01;
-
-
-  	//AQUI------Nuevo--------------------------
-/*
-  	init_motor(1);
-  	init_motor(2);
-  	init_motor(3);
-  	init_motor(4);
-*/
-//  	angulo_a0(1);
-//  	escribirRx(RxPacket());
- // 	change_velocidad(1, 1, 0);
- // 	escribirRx(RxPacket());
-
-  	//gbpParameter[0] = P_LED; //Address of LED
-  	//gbpParameter[1] = 1; //Writing Data encender
-  	/*bTxPacketLength =*/
-  	//TxPacket(4,0,INST_PING);
-  	//escribirRx(RxPacket());
-  	//TxPacket(4,2,INST_WRITE);
-  	//gbpParameter[1] = 0;//apagar
-  	//TxPacket(1,2,INST_WRITE);
-  	//bRxPacketLength = RxPacket(DEFAULT_RETURN_PACKET_SIZE);
-
-
-
-  	//-----------------------
 
 
 
@@ -150,12 +227,13 @@ void main(void)
   	do//do While de todo el programa
    	{
   		//el programa espera a una interrupcion
-
-  		read_left();
-  		read_center();
-  		read_right();
-
-  		tratarRespuesta(obstacle_detection());
+  		referencia=0;
+  		init_lado();
+  		if(referencia==1){
+  			circular_ref_izquierda();
+  		}else if(referencia == 2){
+  			circular_ref_derecha();
+  		}
    	}while(1);
 }
 
@@ -238,4 +316,12 @@ DatoLeido_UART = UCA0RXBUF;
 Byte_Recibido=1;
 
 UCA0IE |= UCRXIE; //Interrupciones reactivadas en RX
+}
+
+#pragma vector=TIMERB0_VECTOR
+__interrupt void Interrupcion_B0(void){
+
+	if(delay_cont>= 0){
+		delay_cont--;
+	}
 }

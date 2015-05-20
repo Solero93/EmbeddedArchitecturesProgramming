@@ -58,6 +58,9 @@
 #define P_PUNCH_L (48)
 #define P_PUNCH_H (49)
 
+#define DELAY_90 (650)
+#define DELAY_30 (200)
+
 #define MOTOR_DEL_DERECHO 0x02
 #define FORWARD_MOTOR_DEL_DERECHO 0x05
 #define BACKWARD_MOTOR_DEL_DERECHO 0x01
@@ -86,6 +89,8 @@ void angulo_a0(byte bID){
 
 
 }
+
+
 
 void change_velocidad(byte bID, byte H, byte L){
 	gbpParameter[0] = P_GOAL_SPEED_L; //high de Speed de 0 a 3
@@ -140,9 +145,39 @@ void girar_izquierda(){
 	change_velocidad(MOTOR_TRAS_IZQUIERDO,  5 & BACKWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
+void delay_motor(long int contador){
 
-void mandar_a_todos_motores(byte numParam, byte instruction){
+}
 
+
+void girar_90_izquierda(){
+	volatile int i;
+	girar_izquierda();
+	delay_motor(DELAY_90);
+	parar();
+}
+
+void girar_90_derecha(){
+	volatile int i;
+	girar_derecha();
+	delay_motor(DELAY_90);
+	parar();
+}
+
+
+void girar_30_izquierda(){
+	volatile int i;
+	girar_izquierda();
+	delay_motor(DELAY_30);
+	parar();
+}
+
+void girar_30_derecha(){
+	volatile int i;
+	girar_derecha();
+	delay_motor(DELAY_30);
+
+	parar();
 }
 
 void ping(byte bID){
