@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;PAE_ChristianSoler_NicolasForteza_Practica4/sensor.h&apos;" deleteContents="false" description="Delete resource &apos;PAE_ChristianSoler_NicolasForteza_Practica4/sensor.h&apos;" element1="/PAE_ChristianSoler_NicolasForteza_Practica4/sensor.h" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1430130003641"/>
-</session>

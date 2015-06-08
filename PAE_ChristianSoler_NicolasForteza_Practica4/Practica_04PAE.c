@@ -14,6 +14,7 @@
 #include "sensor.h"
 volatile long int delay_cont;
 long int i;
+int canMover;
 
 byte referencia;
 
@@ -56,6 +57,15 @@ void init_botons(void)
 
 }
 
+/**************************************************************************
+ * INICIALIZACIÓN DEL TIMER B.
+ * Configuramos el B:
+ *
+ * Sin datos de entrada
+ *
+ * Sin datos de salida
+ *
+ **************************************************************************/
 void init_B0(void){
 	TB0CTL= 0x0110;//ACLK y UP
 	TB0CCR0 = 0x20;//MILISEGUNDO
@@ -63,6 +73,17 @@ void init_B0(void){
 }
 
 
+/**************************************************************************
+ * IMPRIMIR RESPUESTA COMPONENT.
+ * Imprimimos la respuesta de un componente:
+ *
+ * Actualmente no esta en uso, se guarda para poder Debugear
+ *
+ * Sin datos de entrada
+ *
+ * Sin datos de salida
+ *
+ **************************************************************************/
 void escribirRx(struct RxReturn respuesta ){
 	byte bCount;
     for(bCount = 0; bCount < respuesta.StatusPacket[3]; bCount++){
@@ -72,47 +93,52 @@ void escribirRx(struct RxReturn respuesta ){
     }
 }
 
+/**************************************************************************
+ * IMPRIMIR RESPUESTA del sensor.
+ * Imprimimos la respuesta del sensor:
+ *
+ * Actualmente no esta en uso, se guarda para poder Debugear
+ *
+ * Sin datos de entrada
+ *
+ * Sin datos de salida
+ *
+ **************************************************************************/
 void escribirRxSensor(int linea, struct RxReturn respuesta ,char on){
 
     sprintf(cadena," %x ", respuesta.StatusPacket[5]);
     escribir(cadena, linea);
 }
 
-void tratarRespuesta(byte respuesta) {
-	sprintf(cadena," %x ", respuesta);
-	escribir(cadena, 1);
-	if((respuesta & 2 ) | (respuesta) == 2){
-
-	}
-	else if (respuesta & referencia != referencia){
-		if(referencia)
-		girar_izquierda();
-	}
-	/*
-	else if((respuesta & 1) == 1){//
-		girar_derecha();
-	}
-
-	else if((respuesta & 4) == 4){//
-		girar_izquierda();
-	}
-
-	*/
-	else{
-		mover_delante();
-	}
-}
-
+/**************************************************************************
+ * DELAY.
+ * Inicia el delay por reloj, para los motores:
+ *
+ * Sin datos de entrada
+ *
+ * Sin datos de salida
+ *
+ **************************************************************************/
 void delay(long int algo){
 	delay_cont=algo;
 	while(delay_cont>0);
 	delay_cont=-1;
 }
 
+
+/**************************************************************************
+ * RECORRIDO SIGUIENDO LA DERECHA.
+ * El robot circula siguiendo como referncia la derecha:
+ *
+ * Sin datos de entrada
+ *
+ * Sin datos de salida
+ *
+ **************************************************************************/
 void circular_ref_derecha(){
 	int arreglaProblemas=0;
-	while(1){
-		if(arreglaProblemas>=5){
+	while((1)){
+		if(arreglaProblemas>=5){// POR SI EL Robot se enganchs en un punto
 			mover_delante();
 			delay(500);
 			arreglaProblemas=0;
@@ -127,13 +153,13 @@ void circular_ref_derecha(){
 			girar_izquierda();
 			delay(500);
 
-		}else if(lejos_derecha()){
+		}else if(lejos_derecha()){//LEJOS ?
 
 			girar_derecha();
 			delay(500);
 
 
-		}else{
+		}else{//seguir hacia delante
 			arreglaProblemas=0;
 			mover_delante();
 			delay(500);
@@ -143,10 +169,19 @@ void circular_ref_derecha(){
 }
 
 
+/**************************************************************************
+ * RECORRIDO SIGUIENDO LA IZQUIERDA.
+ * El robot circula siguiendo como referncia la izquierda:
+ *
+ * Sin datos de entrada
+ *
+ * Sin datos de salida
+ *
+ **************************************************************************/
 void circular_ref_izquierda(){
 	int arreglaProblemas=0;
-	while(1){
-		if(arreglaProblemas>=5){
+	while((1)){
+		if(arreglaProblemas>=5){// POR SI EL Robot se enganchs en un punto
 			mover_delante();
 			delay(500);
 			arreglaProblemas=0;
@@ -160,27 +195,36 @@ void circular_ref_izquierda(){
 
 			girar_derecha();
 			delay(500);
-		}else if(lejos_izquierda()){
+		}else if(lejos_izquierda()){//LEJOS izquierda?
 
 			girar_izquierda();
 			delay(500);
-		}else{
+		}else{//seguir hacia delante
 			arreglaProblemas=0;
 			mover_delante();
 			delay(500);
 		}
 		arreglaProblemas++;
 	}
-
 }
 
+
+/**************************************************************************
+ * RECORRIDO INICIAL.
+ * El robot circula hacia delante hasta encontrar un obstaculo al cual seguir:
+ *
+ * Sin datos de entrada
+ *
+ * Sin datos de salida
+ *
+ **************************************************************************/
 void init_lado(){
 	int respuesta;
 	while(!referencia){
 
 		respuesta=obstacle_detection();
 
-		if((respuesta & 2 )  == 2){
+		if((respuesta & 2 )  == 2){//obstaculo en frente
 			girar_derecha();
 			delay(1000);
 
@@ -188,11 +232,11 @@ void init_lado(){
 		}
 
 
-		else if((respuesta & 1) == 1){//
+		else if((respuesta & 1) == 1){//obstaculo a la izquierda
 			referencia=1; //referencia izquierda
 		}
 
-		else if((respuesta & 4) == 4){//
+		else if((respuesta & 4) == 4){//obstaculo a la derecha
 			referencia=2; //referencia derecha
 		}else{
 			mover_delante();
@@ -206,7 +250,7 @@ void init_lado(){
  */
 void main(void)
 {
-  	init_UCS();
+       	init_UCS();
 	init_UART();
    	WDTCTL = WDTPW+WDTHOLD;       	// Paramos el watchdog timer
 
@@ -216,7 +260,7 @@ void main(void)
     init_LCD();						// Inicializamos la pantalla
     _enable_interrupt();
   	linea++; 					//Aumentamos el valor de linea y con ello pasamos a la linea siguiente
-
+  	canMover=0;
   	referencia=0;
 
   	P4OUT = 0x01;
@@ -226,13 +270,16 @@ void main(void)
 
   	do//do While de todo el programa
    	{
-  		//el programa espera a una interrupcion
-  		referencia=0;
-  		init_lado();
-  		if(referencia==1){
-  			circular_ref_izquierda();
-  		}else if(referencia == 2){
-  			circular_ref_derecha();
+  		while(canMover){//Se activa si apretas un boton
+			//el programa espera a una interrupcion
+			referencia=0;
+			init_lado();//inicializacion
+			if(referencia==1){//recorrido 1
+				circular_ref_izquierda();
+			}else if(referencia == 2){//recorrido 2
+				circular_ref_derecha();
+			}
+
   		}
    	}while(1);
 }
@@ -271,25 +318,24 @@ __interrupt void Port2_ISR(void)
 	switch(P2IFG){
 
 	case 2://Joystick a la izquierda
-		girar_izquierda();
+
 		break;
 	case 4:// Joystick a l derecha
-		girar_derecha();
+
 		break;
 	case 8://Joystick centro
 
 		break;
 	case 16://Joystick Arriba
-		mover_delante();
 		break;
 	case 32://Joystick abajo
-		mover_atras();
 		break;
 	case 64://Boton S1
-		parar();
+
+			canMover=1;//si apretamos un boton comienza a circular
 		break;
 	case 128://boton S2
-
+			canMover=1;//si aprtetamos un boton comienza a circular
 		break;
 	}
 
@@ -306,7 +352,17 @@ __interrupt void Port2_ISR(void)
 
 
 
-
+/**************************************************************************
+ * INTERRUPCION DE LA USC:
+ * Aqui capturamos las respuestas de los componentes del robot
+ *
+ * Sin Datos de entrada
+ *
+ * Sin datos de salida
+ *
+ * 
+ *
+ **************************************************************************/
 #pragma vector=USCI_A0_VECTOR
 __interrupt void USCI_A0_ISR(void)
 {
@@ -318,6 +374,18 @@ Byte_Recibido=1;
 UCA0IE |= UCRXIE; //Interrupciones reactivadas en RX
 }
 
+
+/**************************************************************************
+ * INTERRUPCION DE RELOJ B:
+ * interrupcion en milisegundos que nos permite hacer delays
+ *
+ * Sin Datos de entrada
+ *
+ * Sin datos de salida
+ *
+ * Actualiza el valor delay_cont
+ *
+ **************************************************************************/
 #pragma vector=TIMERB0_VECTOR
 __interrupt void Interrupcion_B0(void){
 

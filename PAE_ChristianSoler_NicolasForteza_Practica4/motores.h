@@ -77,6 +77,10 @@
 #define FORWARD_MOTOR_TRAS_IZQUIERDO 0x01
 #define BACKWARD_MOTOR_TRAS_IZQUIERDO 0x05
 
+
+ /**
+  * Inicializamos los angulos para el ENDLESS
+  */
 void angulo_a0(byte bID){
         gbpParameter[0] = P_CW_ANGLE_LIMIT_L; //high de Speed de 0 a 3
         gbpParameter[1] = 0x00;
@@ -91,23 +95,28 @@ void angulo_a0(byte bID){
 }
 
 
-
+/**
+ * Canvio de velocidad
+ */
 void change_velocidad(byte bID, byte H, byte L){
 	gbpParameter[0] = P_GOAL_SPEED_L; //high de Speed de 0 a 3
 	gbpParameter[1] = L; //
 	gbpParameter[2] = H; //
 	TxPacket(bID,3,INST_WRITE);
 }
-
+/*
+ *Inicializacion del motor
+  */
 void init_motor(byte bID){
 	angulo_a0(bID);
 	change_velocidad(bID, 0, 0);
 }
 
-/*
- *Hace falta probar qué cómo va
- */
 
+/**
+ * El robot se muev
+ *e hacia delante
+ */
 void mover_delante(){
 	change_velocidad(MOTOR_DEL_DERECHO, 5 & FORWARD_MOTOR_DEL_DERECHO, 0);
 	change_velocidad(MOTOR_DEL_IZQUIERDO,  5 & FORWARD_MOTOR_DEL_IZQUIERDO, 0);
@@ -115,7 +124,10 @@ void mover_delante(){
 	change_velocidad(MOTOR_TRAS_IZQUIERDO,  5 & FORWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
-
+/**
+ * El robot para de moverse
+ *
+ */
 void parar(){
 	change_velocidad(MOTOR_DEL_DERECHO,0, 0);
 	change_velocidad(MOTOR_DEL_IZQUIERDO, 0, 0);
@@ -123,7 +135,10 @@ void parar(){
 	change_velocidad(MOTOR_TRAS_IZQUIERDO, 0, 0);
 }
 
-
+/**
+ * El robot retrocede
+ *
+ */
 void mover_atras(){
 	change_velocidad(MOTOR_DEL_DERECHO,  5 & BACKWARD_MOTOR_DEL_DERECHO, 0);
 	change_velocidad(MOTOR_DEL_IZQUIERDO,  5 & BACKWARD_MOTOR_DEL_IZQUIERDO, 0);
@@ -131,6 +146,10 @@ void mover_atras(){
 	change_velocidad(MOTOR_TRAS_IZQUIERDO,  5 & BACKWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
+/**
+ * El robot gira hacia la derecha
+ *
+ */
 void girar_derecha(){
 	change_velocidad(MOTOR_DEL_DERECHO,  5 & BACKWARD_MOTOR_DEL_DERECHO, 0);
 	change_velocidad(MOTOR_DEL_IZQUIERDO,  5 & FORWARD_MOTOR_DEL_IZQUIERDO, 0);
@@ -138,6 +157,10 @@ void girar_derecha(){
 	change_velocidad(MOTOR_TRAS_IZQUIERDO,  5 & FORWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
+/**
+ * El robot gira hacia la izquierda
+ *
+ */
 void girar_izquierda(){
 	change_velocidad(MOTOR_DEL_DERECHO,  5 & FORWARD_MOTOR_DEL_DERECHO, 0);
 	change_velocidad(MOTOR_DEL_IZQUIERDO,  5 & BACKWARD_MOTOR_DEL_IZQUIERDO, 0);
@@ -145,46 +168,19 @@ void girar_izquierda(){
 	change_velocidad(MOTOR_TRAS_IZQUIERDO,  5 & BACKWARD_MOTOR_TRAS_IZQUIERDO, 0);
 }
 
-void delay_motor(long int contador){
-
-}
-
-
-void girar_90_izquierda(){
-	volatile int i;
-	girar_izquierda();
-	delay_motor(DELAY_90);
-	parar();
-}
-
-void girar_90_derecha(){
-	volatile int i;
-	girar_derecha();
-	delay_motor(DELAY_90);
-	parar();
-}
-
-
-void girar_30_izquierda(){
-	volatile int i;
-	girar_izquierda();
-	delay_motor(DELAY_30);
-	parar();
-}
-
-void girar_30_derecha(){
-	volatile int i;
-	girar_derecha();
-	delay_motor(DELAY_30);
-
-	parar();
-}
-
+/**
+ * Enivia un ping 
+ *
+ */
 void ping(byte bID){
 	TxPacket(bID,0,INST_PING);
 	escribirRx(RxPacket());
 }
 
+/**
+ * Endiende el led del motor
+ *
+ */
 void encender_LED(byte bID){
 	gbpParameter[0] = P_LED; //Address of LED
 	gbpParameter[1] = 1; //Writing Data encender
@@ -193,6 +189,10 @@ void encender_LED(byte bID){
 
 }
 
+/**
+ * apaga el led del motor
+ *
+ */
 void apagar_LED(byte bID){
 	gbpParameter[0] = P_LED; //Address of LED
 	gbpParameter[1] = 0; //Writing Data apagar

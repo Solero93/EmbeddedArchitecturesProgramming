@@ -9,6 +9,10 @@
 #define OBSTACLE_VALUE 0x50
 #define VALUE_DISTANT 0x0F
 
+/**
+ * Inicializacion del sensor
+ *
+ */
 void init_sensor(){
 	//set OBSTACLE_DETECTION_FLAG to 0
 	gbpParameter[0] = OBSTACLE_DETECTION_FLAG;
@@ -21,6 +25,10 @@ void init_sensor(){
 	TxPacket(SENSOR_ID,2,INST_WRITE);	
 }
 
+/**
+ * Retorna si hay algun obstaculo ceca
+ *
+ */
 int obstacle_detection(){
 	//read OBSTACLE_DETECTION_FLAG
 	gbpParameter[0] = OBSTACLE_DETECTION_FLAG;
@@ -36,6 +44,11 @@ int obstacle_detection(){
 	 */
 }
 
+
+/**
+ * lectura del sensor izquierdo
+ *
+ */
 int read_left(){
 	gbpParameter[0] = LEFT_IR_SENSOR_DATA;
 	gbpParameter[1] = 1; // Length of the data to be read
@@ -46,6 +59,10 @@ int read_left(){
 
 }
 
+/**
+ * lectura del sensor delantero
+ *
+ */
 int read_center(){
 	gbpParameter[0] = CENTER_IR_SENSOR_DATA;
 	gbpParameter[1] = 1; // Length of the data to be read
@@ -56,6 +73,10 @@ int read_center(){
 
 }
 
+/**
+ * lectura del sensor derecho
+ *
+ */
 int read_right(){
 	gbpParameter[0] = RIGHT_IR_SENSOR_DATA;
 	gbpParameter[1] = 1; // Length of the data to be read
@@ -66,7 +87,10 @@ int read_right(){
 
 }
 
-
+/**
+ *comprueba si esta mas lejos el sensor  izquierdo
+ *
+ */
 int lejos_izquierda(){
 	if(read_left()< VALUE_DISTANT){
 		return 1;
@@ -75,6 +99,10 @@ int lejos_izquierda(){
 	}
 }
 
+/**
+ * comprueba si estamas lejos el sensor derecho
+ *
+ */
 int lejos_derecha(){
 	if(read_right()< VALUE_DISTANT){
 		return 1;
